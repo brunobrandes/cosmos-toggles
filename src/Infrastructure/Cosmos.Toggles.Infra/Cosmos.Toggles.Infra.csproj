@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Application\Cosmos.Toggles.Application.Service\Cosmos.Toggles.Application.Service.csproj" />
+    <ProjectReference Include="..\..\Domain\Cosmos.Toggles.Domain.DataTransferObject\Cosmos.Toggles.Domain.DataTransferObject.csproj" />
+    <ProjectReference Include="..\..\Domain\Cosmos.Toggles.Domain.Entities\Cosmos.Toggles.Domain.Entities.csproj" />
+    <ProjectReference Include="..\Cosmos.Toggles.Infra.Cosmos.Db\Cosmos.Toggles.Infra.Cosmos.Db.csproj" />
+  </ItemGroup>
+
+</Project>

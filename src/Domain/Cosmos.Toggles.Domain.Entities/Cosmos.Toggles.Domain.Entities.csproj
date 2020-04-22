@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Cosmos.Db.Sql.Api.Domain" Version="1.4.0-preview" />
+    <PackageReference Include="Cosmos.Db.Sql.Api.Repository" Version="1.4.0-preview" />
+  </ItemGroup>
+
+</Project>

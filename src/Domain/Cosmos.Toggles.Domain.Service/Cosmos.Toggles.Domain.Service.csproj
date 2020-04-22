@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cosmos.Toggles.Domain.DataTransferObject\Cosmos.Toggles.Domain.DataTransferObject.csproj" />
+    <ProjectReference Include="..\Cosmos.Toggles.Domain.Entities\Cosmos.Toggles.Domain.Entities.csproj" />
+    <ProjectReference Include="..\Cosmos.Toggles.Domain.Enum\Cosmos.Toggles.Domain.Enum.csproj" />
+  </ItemGroup>
+
+</Project>

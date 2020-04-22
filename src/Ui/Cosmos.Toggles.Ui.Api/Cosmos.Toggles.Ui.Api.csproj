@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aec975db-8e59-463c-b04f-06d0fbec7508</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.3.1" />
+    <PackageReference Include="System.Text.Json" Version="4.7.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Application\Cosmos.Toggles.Application.Service\Cosmos.Toggles.Application.Service.csproj" />
+    <ProjectReference Include="..\..\Domain\Cosmos.Toggles.Domain.DataTransferObject\Cosmos.Toggles.Domain.DataTransferObject.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Cosmos.Toggles.Infra.Cosmos.Db\Cosmos.Toggles.Infra.Cosmos.Db.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\Cosmos.Toggles.Infra\Cosmos.Toggles.Infra.csproj" />
+  </ItemGroup>
+
+
+</Project>
