@@ -34,7 +34,7 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
         public async Task<IActionResult> PostAsync([FromServices] IEnvironmentAppService environmentAppService, [FromBody] Environment environment)
         {
             await environmentAppService.CreateAsync(environment);
-            return Ok();
+            return Created($"{Request.Path}", environment);
         }
     }
 }

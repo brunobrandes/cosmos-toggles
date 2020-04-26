@@ -42,7 +42,7 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
         public async Task<IActionResult> PostAsync([FromServices] IProjectAppService projectAppService, [FromBody] Project project)
         {
             await projectAppService.CreateAsync(project);
-            return Ok();
+            return Created($"{Request.Path}", project);
         }
     }
 }

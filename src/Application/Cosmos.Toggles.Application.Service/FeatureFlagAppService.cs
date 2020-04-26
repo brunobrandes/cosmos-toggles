@@ -34,8 +34,9 @@ namespace Cosmos.Toggles.Application.Service
                 var entity = await _cosmosToggleDataContext.FlagRepository.GetByEnvironmentAsync(projectId, environmentId, flagId);
                 return _mapper.Map<FeatureFlag>(entity, opts =>
                 {
+
                     opts.Items["Code"] = ((int)HttpStatusCode.OK).ToString();
-                    opts.Items["Description"] = "Feature flag enabled";
+                    opts.Items["Description"] = $"Feature flag query successfully";
                 });
             }
             catch (Exception ex)

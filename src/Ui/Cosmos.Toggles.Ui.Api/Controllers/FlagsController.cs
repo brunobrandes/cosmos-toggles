@@ -20,7 +20,7 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
         public async Task<IActionResult> PostAsync([FromServices] IFlagAppService flagAppService, [FromBody] Flag flag)
         {
             await flagAppService.CreateAsync(flag);
-            return Ok();
+            return Created($"{Request.Path}", flag);
         }
 
         [HttpPut]

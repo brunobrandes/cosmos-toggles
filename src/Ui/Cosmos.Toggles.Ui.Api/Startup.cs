@@ -1,6 +1,7 @@
 using AutoMapper;
 using Cosmos.Toggles.Infra.DependencyInjection;
 using Cosmos.Toggles.Infra.Http.Filters;
+using Cosmos.Toggles.Infra.Http.Middlewares;
 using Cosmos.Toggles.Infra.Mapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -59,7 +60,7 @@ namespace Cosmos.Toggles.Ui.Api
             app.UseRouting();
 
             app.UseAuthorization();
-
+            app.UseMiddleware(typeof(ExceptionHandlingMiddleware));
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
