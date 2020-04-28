@@ -50,3 +50,8 @@ This project welcomes contributions and suggestions. Most contributions require 
 When you submit a pull request, garantehave a unit test to coverage new feature and increse the postman collection with tests.
 
 Looking forward to your contribution 🤓
+
+### License
+
+This software is open source, licensed under the Apache License. </br>
+See [LICENSE.me](https://github.com/brunobrandes/cosmos-toggles/blob/master/LICENSE.me) for details.
