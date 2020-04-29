@@ -3,8 +3,11 @@ using Azure.Cosmos;
 using Cosmos.Toggles.Application.Service.Interfaces;
 using Cosmos.Toggles.Domain.DataTransferObject;
 using Cosmos.Toggles.Domain.Entities.Interfaces;
+using Cosmos.Toggles.Domain.Enum;
+using Cosmos.Toggles.Domain.Service.Extensions;
 using Cosmos.Toggles.Domain.Service.Interfaces;
 using FluentValidation;
+using System;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -43,6 +46,35 @@ namespace Cosmos.Toggles.Application.Service
             }
 
             return _mapper.Map<Flag>(entity);
+        }
+
+        public async Task<FlagStatus> GetStatusAsync(string projectId, string environmentId, string flagId)
+        {
+            try
+            {
+                var entity = await _cosmosToggleDataContext.FlagRepository.GetByEnvironmentAsync(projectId, environmentId, flagId);
+                var code = (int)HttpStatusCode.OK;
+
+                if (entity != null)
+                {
+                    return _mapper.Map<FlagStatus>(entity, opts =>
+                    {
+                        opts.Items["Code"] = code;
+                        opts.Items["Description"] = $"Feature flag query successfully";
+                    });
+                }
+
+                return new FlagStatus
+                {
+                    Code = code,
+                    Description = "Feature flag not found",
+                    Status = FeatureFlagStatus.Unavailable
+                };
+            }
+            catch (Exception ex)
+            {
+                return ex.ToFlagStatus(flagId);
+            }
         }
 
         /// <summary>

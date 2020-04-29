@@ -8,9 +8,9 @@ namespace Cosmos.Toggles.Domain.Service.Extensions
     public static class ExceptionExtension
     {
         public const int GENERIC_ERROR = 500;
-        public static FeatureFlag ToFeatureFlag(this Exception exception, string flagId)
+        public static FlagStatus ToFlagStatus(this Exception exception, string flagId)
         {
-            var result = new FeatureFlag
+            var result = new FlagStatus
             {
                 Id = flagId,
                 Description = exception.Message,

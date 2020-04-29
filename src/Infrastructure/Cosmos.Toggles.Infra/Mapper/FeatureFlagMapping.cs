@@ -8,7 +8,7 @@ namespace Cosmos.Toggles.Infra.Mapper
     {
         public FeatureFlagMapping()
         {
-            CreateMap<Flag, Domain.DataTransferObject.FeatureFlag>()
+            CreateMap<Flag, Domain.DataTransferObject.FlagStatus>()
                .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Enabled ? FeatureFlagStatus.Enabled : FeatureFlagStatus.Disabled))
                .ForMember(dest => dest.Code, opt => opt.MapFrom((src, dest, destMember, context) => context.Items["Code"]))
                .ForMember(dest => dest.Description, opt => opt.MapFrom((src, dest, destMember, context) => context.Items["Description"]));

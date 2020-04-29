@@ -10,6 +10,19 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
     public class ProjectsController : ControllerBase
     {
         /// <summary>
+        /// Create project
+        /// </summary>
+        /// <param name="projectAppService"></param>
+        /// <param name="project">Project</param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> PostAsync([FromServices] IProjectAppService projectAppService, [FromBody] Project project)
+        {
+            await projectAppService.CreateAsync(project);
+            return Created($"{Request.Path}", project);
+        }
+
+        /// <summary>
         /// Get all projects
         /// </summary>
         /// <param name="projectAppService"></param>
@@ -30,19 +43,6 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
         public async Task<IActionResult> GetAsync([FromServices] IProjectAppService projectAppService, string projectId)
         {
             return Ok(await projectAppService.GetAsync(projectId));
-        }
-
-        /// <summary>
-        /// Create project
-        /// </summary>
-        /// <param name="projectAppService"></param>
-        /// <param name="project">Project</param>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<IActionResult> PostAsync([FromServices] IProjectAppService projectAppService, [FromBody] Project project)
-        {
-            await projectAppService.CreateAsync(project);
-            return Created($"{Request.Path}", project);
-        }
+        }       
     }
 }

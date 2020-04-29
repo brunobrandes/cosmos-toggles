@@ -2,7 +2,7 @@
 
 namespace Cosmos.Toggles.Domain.DataTransferObject
 {
-    public class FeatureFlag
+    public class FlagStatus
     {
         /// <summary>
         /// Flag identifier

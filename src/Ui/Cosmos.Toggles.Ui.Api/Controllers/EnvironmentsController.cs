@@ -13,18 +13,6 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
     public class EnvironmentsController : ControllerBase
     {
         /// <summary>
-        /// Get environment by project key
-        /// </summary>
-        /// <param name="environmentAppService"></param>
-        /// <param name="projectId"></param>
-        /// <returns></returns>
-        [HttpGet("{projectId}")]
-        public async Task<IActionResult> GetAsync([FromServices] IEnvironmentAppService environmentAppService, string projectId)
-        {
-            return Ok(await environmentAppService.GetByProjectAsync(projectId));
-        }
-
-        /// <summary>
         /// Create evironment
         /// </summary>
         /// <param name="environmentAppService"></param>
@@ -36,5 +24,17 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
             await environmentAppService.CreateAsync(environment);
             return Created($"{Request.Path}", environment);
         }
+
+        /// <summary>
+        /// Get environment by project key
+        /// </summary>
+        /// <param name="environmentAppService"></param>
+        /// <param name="projectId"></param>
+        /// <returns></returns>
+        [HttpGet("{projectId}")]
+        public async Task<IActionResult> GetAsync([FromServices] IEnvironmentAppService environmentAppService, string projectId)
+        {
+            return Ok(await environmentAppService.GetByProjectAsync(projectId));
+        }        
     }
 }

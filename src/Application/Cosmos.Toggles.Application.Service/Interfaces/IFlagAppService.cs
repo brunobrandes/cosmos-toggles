@@ -7,6 +7,7 @@ namespace Cosmos.Toggles.Application.Service.Interfaces
     {
         Task CreateAsync(Flag flag);
         Task<Flag> GetAsync(string projectId, string environmentId, string key);
+        Task<FlagStatus> GetStatusAsync(string projectId, string environmentId, string flagId);
         Task<int> UpdateAsync(Flag flag);     
     }
 }
