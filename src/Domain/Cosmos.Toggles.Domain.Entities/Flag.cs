@@ -1,4 +1,5 @@
 ﻿using Cosmos.Db.Sql.Api.Domain.Entities;
+using System;
 
 namespace Cosmos.Toggles.Domain.Entities
 {
@@ -14,5 +15,6 @@ namespace Cosmos.Toggles.Domain.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         public bool Enabled { get; set; }
+        public DateTime Created { get; set; }
     }
 }

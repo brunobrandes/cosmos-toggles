@@ -1,4 +1,6 @@
-﻿namespace Cosmos.Toggles.Domain.DataTransferObject
+﻿using System;
+
+namespace Cosmos.Toggles.Domain.DataTransferObject
 {
     public class Flag
     {
@@ -23,8 +25,8 @@
         /// </summary>
         public bool Enabled { get; set; }
         /// <summary>
-        /// Time to live
+        /// UTC date time to live
         /// </summary>
-        public int Ttl { get; set; }
+        public DateTime? Expiration { get; set; }
     }
 }
