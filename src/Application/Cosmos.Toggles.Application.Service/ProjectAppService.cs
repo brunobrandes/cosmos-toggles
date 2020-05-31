@@ -29,7 +29,7 @@ namespace Cosmos.Toggles.Application.Service
 
         public async Task CreateAsync(Project project)
         {
-            _productValidator.Validate(project, ruleSet: "Create");
+            _productValidator.ValidateAndThrow(project, ruleSet: "Create");
             var entity = _mapper.Map<Domain.Entities.Project>(project);
             await _cosmosToggleDataContext.ProjectRepository.AddAsync(entity, new PartitionKey(project.Id));
         }

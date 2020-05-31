@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "26d68aa7-4ac3-4ac5-b101-1f792e074116",
+		"_postman_id": "65d04c42-c0fd-4a32-81b4-8b4fc5099916",
 		"name": "Cosmos-Toggles",
 		"description": "Pass all cosmos toggle flow.\n\t1- Projects: Create, get all and get project by id;\n\t2- Environments: Create and get by project id;\n\t3- Flags: Create, get by project/environment, and put data;\n\t4- Feature Flags:Check feature flag status by project, environment and flag identifier.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -15,7 +15,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "52076a04-4c66-44bc-81fb-4741f86795d5",
+								"id": "75f55fdc-b3dc-4c24-88c2-46eb800dae50",
 								"exec": [
 									"pm.test(\"Status test\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
@@ -58,7 +58,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7a818ffa-6a25-4426-8f37-19ebc6a4ad50",
+								"id": "9d439c0d-be83-4d35-9754-d067767e1dec",
 								"exec": [
 									"pm.test(\"Status test\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
@@ -97,7 +97,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5104e5eb-7feb-48a7-99eb-e0e2a6c8674d",
+								"id": "7fdbc245-8b13-4e39-b53d-a60edad11548",
 								"exec": [
 									"pm.test(\"Status test\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
@@ -137,7 +137,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "9b2de126-70f2-4c13-80b0-5b6f1733f5be",
+								"id": "40771dc3-db7d-483c-8223-a22bf9296094",
 								"exec": [
 									"pm.test(\"Status test\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
@@ -180,7 +180,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bb0c85c9-7ee8-47ed-9fae-cf0f12ef4eca",
+								"id": "09b2379a-c2a1-4713-92ff-d68b4ba2f772",
 								"exec": [
 									"pm.test(\"Status test\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
@@ -227,7 +227,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fb8fd216-d5a8-4726-93ac-adae5d8323a7",
+								"id": "6e05e6fa-ff76-4489-8058-3885785b2b36",
 								"exec": [
 									"pm.test(\"Status test\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
@@ -248,7 +248,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"environment\": {\r\n    \"project\": {\r\n      \"id\": \"bc6c5436-ffff-439e-ae27-9b3b967daa11\",\r\n      \"name\": \"Sample Project\",\r\n      \"description\": \"Sample project to demonstrate cosmos toggles\"\r\n    },\r\n    \"id\": \"a809c860-dda0-488c-83b1-a6c5a5621a6f\",\r\n    \"name\": \"Production\"\r\n  },\r\n  \"id\": \"wi-258974\",\r\n  \"name\": \"Sample Feature\",\r\n  \"description\": \"Sample increment software value\",\r\n  \"enabled\": true\r\n}"
+							"raw": "{\r\n  \"environment\": {\r\n    \"project\": {\r\n      \"id\": \"bc6c5436-ffff-439e-ae27-9b3b967daa11\",\r\n      \"name\": \"Sample Project\",\r\n      \"description\": \"Sample project to demonstrate cosmos toggles\"\r\n    },\r\n    \"id\": \"a809c860-dda0-488c-83b1-a6c5a5621a6f\",\r\n    \"name\": \"Production\"\r\n  },\r\n  \"id\": \"wi-258974\",\r\n  \"name\": \"Sample Feature\",\r\n  \"description\": \"Sample increment software value\",\r\n  \"enabled\": true,\r\n  \"expiration\": null\r\n}"
 						},
 						"url": {
 							"raw": "https://localhost:44362/flags",
@@ -270,7 +270,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "4f12f9fc-d95f-4275-8eab-e5120167f915",
+								"id": "6d512ad0-0a6f-4122-8660-029395c80500",
 								"exec": [
 									"pm.test(\"Status test\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
@@ -306,7 +306,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "166004c2-7b00-4cd1-99d2-761a7e3bf160",
+								"id": "412ae99d-6f02-4adb-926f-b3dac7e68396",
 								"exec": [
 									"pm.test(\"Status test\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
@@ -327,7 +327,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"environment\": {\r\n        \"project\": {\r\n            \"id\": \"bc6c5436-ffff-439e-ae27-9b3b967daa11\",\r\n            \"name\": \"Sample Project\",\r\n            \"description\": \"Sample project to demonstrate cosmos toggles\"\r\n        },\r\n        \"id\": \"a809c860-dda0-488c-83b1-a6c5a5621a6f\",\r\n        \"name\": \"Production\"\r\n    },\r\n    \"id\": \"wi-258974\",\r\n    \"name\": \"Sample Feature\",\r\n    \"description\": \"Sample increment software value #updated\",\r\n    \"enabled\": true,\r\n    \"ttl\": -1\r\n}"
+							"raw": "{\r\n    \"environment\": {\r\n        \"project\": {\r\n            \"id\": \"bc6c5436-ffff-439e-ae27-9b3b967daa11\",\r\n            \"name\": \"Sample Project\",\r\n            \"description\": \"Sample project to demonstrate cosmos toggles\"\r\n        },\r\n        \"id\": \"a809c860-dda0-488c-83b1-a6c5a5621a6f\",\r\n        \"name\": \"Production\"\r\n    },\r\n    \"id\": \"wi-258974\",\r\n    \"name\": \"Sample Feature\",\r\n    \"description\": \"Sample increment software value #updated\",\r\n    \"enabled\": true,\r\n    \"expiration\": null\r\n}"
 						},
 						"url": {
 							"raw": "https://localhost:44362/flags",
@@ -338,49 +338,6 @@
 							"port": "44362",
 							"path": [
 								"flags"
-							]
-						}
-					},
-					"response": []
-				}
-			],
-			"protocolProfileBehavior": {}
-		},
-		{
-			"name": "Feature Flags",
-			"item": [
-				{
-					"name": "Get feature flag status",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "59775fb1-8562-4051-b87e-16f43739c303",
-								"exec": [
-									"pm.test(\"Status test\", function () {\r",
-									"    pm.response.to.have.status(200);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "https://localhost:44362/feature-flags/bc6c5436-ffff-439e-ae27-9b3b967daa11/a809c860-dda0-488c-83b1-a6c5a5621a6f/wi-258974/status",
-							"protocol": "https",
-							"host": [
-								"localhost"
-							],
-							"port": "44362",
-							"path": [
-								"feature-flags",
-								"bc6c5436-ffff-439e-ae27-9b3b967daa11",
-								"a809c860-dda0-488c-83b1-a6c5a5621a6f",
-								"wi-258974",
-								"status"
 							]
 						}
 					},

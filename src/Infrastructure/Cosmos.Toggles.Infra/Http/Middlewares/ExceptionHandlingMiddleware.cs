@@ -1,5 +1,6 @@
 ﻿using Azure.Cosmos;
 using Cosmos.Toggles.Domain.DataTransferObject.Notifications;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -52,6 +53,11 @@ namespace Cosmos.Toggles.Infra.Http.Middlewares
                         description = "Data nout found";
                         break;
                 }
+            }
+
+            if (ex is ValidationException)
+            {
+                code = HttpStatusCode.BadRequest;
             }
 
             context.Response.StatusCode = (int)code;

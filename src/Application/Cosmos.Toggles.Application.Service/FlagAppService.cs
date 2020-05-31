@@ -30,7 +30,7 @@ namespace Cosmos.Toggles.Application.Service
 
         public async Task CreateAsync(Flag flag)
         {
-            _flagValidator.Validate(flag, ruleSet: "CreateOrUpdate");
+            _flagValidator.ValidateAndThrow(flag, ruleSet: "CreateOrUpdate");
             var entity = _mapper.Map<Domain.Entities.Flag>(flag);
             await _cosmosToggleDataContext.FlagRepository.AddAsync(entity, new PartitionKey(flag.Environment.Id));
         }
@@ -84,7 +84,7 @@ namespace Cosmos.Toggles.Application.Service
         /// <returns>Return 'rows' afected</returns>
         public async Task<int> UpdateAsync(Flag flag)
         {
-            _flagValidator.Validate(flag, ruleSet: "CreateOrUpdate");
+            _flagValidator.ValidateAndThrow(flag, ruleSet: "CreateOrUpdate");
 
             var entity = await _cosmosToggleDataContext.FlagRepository.GetByEnvironmentAsync(flag.Environment.Project.Id, flag.Environment.Id, flag.Id);
 

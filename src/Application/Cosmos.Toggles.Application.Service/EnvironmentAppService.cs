@@ -30,7 +30,7 @@ namespace Cosmos.Toggles.Application.Service
 
         public async Task CreateAsync(Environment environment)
         {
-            _environmentValidator.Validate(environment, ruleSet: "Create");
+            _environmentValidator.ValidateAndThrow(environment, ruleSet: "Create");
             var entity = _mapper.Map<Domain.Entities.Environment>(environment);
             await _cosmosToggleDataContext.EnvironmentRepository.AddAsync(entity, new PartitionKey(environment.Project.Id));
         }

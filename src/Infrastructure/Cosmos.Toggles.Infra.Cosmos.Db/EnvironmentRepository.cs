@@ -3,7 +3,6 @@ using Cosmos.Db.Sql.Api.Infra.Entities.Repositories;
 using Cosmos.Toggles.Domain.Entities;
 using Cosmos.Toggles.Domain.Entities.Repositories;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Cosmos.Toggles.Infra.Cosmos.Db
