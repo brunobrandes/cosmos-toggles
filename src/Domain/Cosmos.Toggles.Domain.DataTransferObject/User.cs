@@ -1,13 +1,11 @@
-﻿using System.Reflection.Emit;
-
-namespace Cosmos.Toggles.Domain.DataTransferObject
+﻿namespace Cosmos.Toggles.Domain.DataTransferObject
 {
     public class User
     {
         /// <summary>
         /// User identifier
         /// </summary>
-        public string UserId { get; set; }
+        public string Id { get; set; }
         /// <summary>
         /// Email
         /// </summary>

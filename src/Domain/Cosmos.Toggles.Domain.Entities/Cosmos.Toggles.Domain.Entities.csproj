@@ -9,4 +9,8 @@
     <PackageReference Include="Cosmos.Db.Sql.Api.Repository" Version="1.4.0-preview" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Cosmos.Toggles.Domain.Enum\Cosmos.Toggles.Domain.Enum.csproj" />
+  </ItemGroup>
+
 </Project>
