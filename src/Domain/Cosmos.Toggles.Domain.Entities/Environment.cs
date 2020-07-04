@@ -9,6 +9,7 @@ namespace Cosmos.Toggles.Domain.Entities
         {
 
         }
+
         public Project Project { get; set; }
 
         public string Name { get; set; }

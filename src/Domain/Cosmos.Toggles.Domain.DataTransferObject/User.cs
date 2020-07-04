@@ -1,4 +1,6 @@
-﻿namespace Cosmos.Toggles.Domain.DataTransferObject
+﻿using System.Collections.Generic;
+
+namespace Cosmos.Toggles.Domain.DataTransferObject
 {
     public class User
     {
@@ -7,16 +9,16 @@
         /// </summary>
         public string Id { get; set; }
         /// <summary>
+        /// User name
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
         /// Email
         /// </summary>
         public string Email { get; set; }
         /// <summary>
-        /// Name
+        /// In projects
         /// </summary>
-        public string Name { get; set; }
-        /// <summary>
-        /// Password
-        /// </summary>
-        public string Password { get; set; }
+        public IEnumerable<string> Projects { get; set; }
     }
 }
