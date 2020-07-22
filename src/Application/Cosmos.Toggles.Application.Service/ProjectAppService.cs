@@ -52,13 +52,13 @@ namespace Cosmos.Toggles.Application.Service
             return result;
         }
 
-        public async Task<Project> GetAsync(string projectId)
+        public async Task<Project> GetAsync(string id)
         {
-            var entity = await _cosmosToggleDataContext.ProjectRepository.GetByIdAsync(projectId, new PartitionKey(projectId));
+            var entity = await _cosmosToggleDataContext.ProjectRepository.GetByIdAsync(id, new PartitionKey(id));
 
             if (entity == null)
             {
-                await _notificationContext.AddAsync(HttpStatusCode.NotFound, $"Project not found by id '{projectId}'");
+                await _notificationContext.AddAsync(HttpStatusCode.NotFound, $"Project not found by id '{id}'");
                 return null;
             }
 

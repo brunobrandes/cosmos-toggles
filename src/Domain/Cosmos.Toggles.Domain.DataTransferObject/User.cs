@@ -17,7 +17,7 @@ namespace Cosmos.Toggles.Domain.DataTransferObject
         /// </summary>
         public string Email { get; set; }
         /// <summary>
-        /// In projects
+        /// Projects that managed
         /// </summary>
         public IEnumerable<string> Projects { get; set; }
     }

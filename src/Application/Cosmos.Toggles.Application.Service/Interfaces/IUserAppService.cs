@@ -2,7 +2,7 @@
 
 namespace Cosmos.Toggles.Application.Service.Interfaces
 {
-    public interface IProjectAppService : IBaseAppService<Project>
+    public interface IUserAppService : IBaseAppService<User>
     {
     }
 }
