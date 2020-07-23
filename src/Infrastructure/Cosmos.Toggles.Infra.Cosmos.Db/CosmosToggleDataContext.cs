@@ -11,10 +11,14 @@ namespace Cosmos.Toggles.Infra.Cosmos.Db
             EnvironmentRepository = new EnvironmentRepository(cosmosClient);
             FlagRepository = new FlagRepository(cosmosClient);
             ProjectRepository = new ProjectRepository(cosmosClient);
+            UserRepository = new UserRepository(cosmosClient);
+            RefreshTokenRepository = new RefreshTokenRepository(cosmosClient);
         }
 
         public IEnvironmentRepository EnvironmentRepository { get; set; }
         public IFlagRepository FlagRepository { get; set; }
         public IProjectRepository ProjectRepository { get; set; }
+        public IUserRepository UserRepository { get; set; }
+        public IRefreshTokenRepository RefreshTokenRepository { get; set; }
     }
 }

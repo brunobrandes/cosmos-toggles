@@ -27,6 +27,6 @@ namespace Cosmos.Toggles.Domain.DataTransferObject
         /// <summary>
         /// UTC date time to live
         /// </summary>
-        public DateTime? Expiration { get; set; }
+        public DateTime? Expires { get; set; }
     }
 }

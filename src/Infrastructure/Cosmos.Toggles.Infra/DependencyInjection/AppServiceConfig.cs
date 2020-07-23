@@ -11,7 +11,9 @@ namespace Cosmos.Toggles.Infra.DependencyInjection
             services
                 .AddScoped<IEnvironmentAppService, EnvironmentAppService>()
                 .AddScoped<IFlagAppService, FlagAppService>()
-                .AddScoped<IProjectAppService, ProjectAppService>();
+                .AddScoped<ILoginAppService, LoginAppService>()
+                .AddScoped<IProjectAppService, ProjectAppService>()
+                .AddScoped<IUserAppService, UserAppService>();            
         }
     }
 }

@@ -5,6 +5,7 @@ using Cosmos.Toggles.Domain.DataTransferObject;
 using Cosmos.Toggles.Domain.Entities.Interfaces;
 using Cosmos.Toggles.Domain.Service.Interfaces;
 using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
@@ -31,7 +32,7 @@ namespace Cosmos.Toggles.Application.Service
         {
             _productValidator.ValidateAndThrow(project, ruleSet: "Create");
             var entity = _mapper.Map<Domain.Entities.Project>(project);
-            await _cosmosToggleDataContext.ProjectRepository.AddAsync(entity, new PartitionKey(project.Id));
+            await _cosmosToggleDataContext.ProjectRepository.AddAsync(entity, new PartitionKey(entity.Id));
         }
 
         public async Task<IEnumerable<Project>> GetAllAsync()

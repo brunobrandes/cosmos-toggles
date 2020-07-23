@@ -14,7 +14,7 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
         /// </summary>
         /// <param name="projectAppService"></param>
         /// <param name="project">Project</param>
-        /// <returns></returns>
+        /// <returns>Project</returns>
         [HttpPost]
         public async Task<IActionResult> PostAsync([FromServices] IProjectAppService projectAppService, [FromBody] Project project)
         {

@@ -14,7 +14,9 @@ namespace Cosmos.Toggles.Infra.DependencyInjection
             services
               .AddScoped<IValidator<Environment>, EnvironmentValidator>()
               .AddScoped<IValidator<Flag>, FlagValidator>()
-              .AddScoped<IValidator<Project>, ProjectValidator>();
+              .AddScoped<IValidator<Project>, ProjectValidator>()
+              .AddScoped<IValidator<User>, UserValidator>()
+              .AddScoped<IValidator<Login>, LoginValidator>();
         }
 
         public static void AddCosmosToggleNotificationContext(this IServiceCollection services)

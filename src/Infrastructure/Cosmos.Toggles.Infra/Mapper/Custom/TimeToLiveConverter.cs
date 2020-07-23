@@ -12,6 +12,7 @@ namespace Cosmos.Toggles.Infra.Mapper.Custom
                 var timeSpan = sourceMember.Value.Subtract(DateTime.UtcNow);
                 return (int)Math.Ceiling(timeSpan.TotalSeconds);
             }
+
             return -1;
         }
     }

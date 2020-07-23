@@ -2,6 +2,7 @@
 using Cosmos.Toggles.Domain.DataTransferObject;
 using Cosmos.Toggles.Domain.Enum;
 using System;
+using System.Net;
 
 namespace Cosmos.Toggles.Domain.Service.Extensions
 {
@@ -25,6 +26,22 @@ namespace Cosmos.Toggles.Domain.Service.Extensions
             }
 
             return result;
+        }
+
+        public static void IgnoreCosmosExceptionStatus(this Exception exception, HttpStatusCode httpStatusCode)
+        {
+            if (exception is CosmosException)
+            {
+                var cosmosException = exception as CosmosException;
+                if (cosmosException.Status != (int)httpStatusCode)
+                {
+                    throw exception;
+                }
+            }
+            else
+            {
+                throw exception;
+            }
         }
     }
 }

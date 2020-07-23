@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Cosmos.Toggles.Ui.Api</name>
+    </assembly>
+    <members>
+        <member name="T:Cosmos.Toggles.Ui.Api.Controllers.AuthController">
+            <summary>
+            Authentication
+            </summary>
+        </member>
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.AuthController.LoginAsync(Cosmos.Toggles.Application.Service.Interfaces.ILoginAppService,Cosmos.Toggles.Domain.DataTransferObject.Login)">
+            <summary>
+            Login
+            </summary>
+            <param name="loginAppService">Instance of service</param>
+            <param name="login">Login</param>
+            <returns>RefreshToken</returns>
+        </member>
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.AuthController.RefreshAsync(Cosmos.Toggles.Application.Service.Interfaces.ILoginAppService,Cosmos.Toggles.Domain.DataTransferObject.LoginRefresh)">
+            <summary>
+            Refresh login
+            </summary>
+            <param name="loginAppService">Instance of service</param>
+            <param name="loginRefresh">Login refresh</param>
+            <returns>RefreshToken</returns>
+        </member>
+        <member name="T:Cosmos.Toggles.Ui.Api.Controllers.EnvironmentsController">
+            <summary>
+            Manage environment data
+            </summary>
+        </member>
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.EnvironmentsController.PostAsync(Cosmos.Toggles.Application.Service.Interfaces.IEnvironmentAppService,Cosmos.Toggles.Domain.DataTransferObject.Environment)">
+            <summary>
+            Create evironment
+            </summary>
+            <param name="environmentAppService"></param>
+            <param name="environment"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.EnvironmentsController.GetAsync(Cosmos.Toggles.Application.Service.Interfaces.IEnvironmentAppService,System.String)">
+            <summary>
+            Get environment by project key
+            </summary>
+            <param name="environmentAppService"></param>
+            <param name="projectId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.ProjectsController.PostAsync(Cosmos.Toggles.Application.Service.Interfaces.IProjectAppService,Cosmos.Toggles.Domain.DataTransferObject.Project)">
+            <summary>
+            Create project
+            </summary>
+            <param name="projectAppService"></param>
+            <param name="project">Project</param>
+            <returns>Project</returns>
+        </member>
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.ProjectsController.GetAllAsync(Cosmos.Toggles.Application.Service.Interfaces.IProjectAppService)">
+            <summary>
+            Get all projects
+            </summary>
+            <param name="projectAppService"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.ProjectsController.GetAsync(Cosmos.Toggles.Application.Service.Interfaces.IProjectAppService,System.String)">
+            <summary>
+            Get project by identifier
+            </summary>
+            <param name="projectAppService"></param>
+            <param name="projectId">Project identifier</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.UserController.PostAsync(Cosmos.Toggles.Application.Service.Interfaces.IUserAppService,Cosmos.Toggles.Domain.DataTransferObject.User)">
+            <summary>
+            Create user
+            </summary>
+            <param name="userAppService">User app service</param>
+            <param name="user">User</param>
+            <returns>User</returns>
+        </member>
+    </members>
+</doc>

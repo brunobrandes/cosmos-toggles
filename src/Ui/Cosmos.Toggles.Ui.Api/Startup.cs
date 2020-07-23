@@ -33,7 +33,8 @@ namespace Cosmos.Toggles.Ui.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Cosmos Toggles .api", Version = "v1.0.0-preview" });
             });
 
-            services.AddAutoMapper(typeof(FlagMapping));
+            services.AddAutoMapper(typeof(UserMapping));
+            services.AddCosmosToggleDomainServices();
             services.AddCosmosToggleAppServices();
             services.AddCosmosToggleDTOValidators();
             services.AddCosmosToggleNotificationContext();

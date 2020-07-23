@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Domain\Cosmos.Toggles.Domain.Entities\Cosmos.Toggles.Domain.Entities.csproj" />
+    <ProjectReference Include="..\..\Domain\Cosmos.Toggles.Domain.Service\Cosmos.Toggles.Domain.Service.csproj" />
   </ItemGroup>
 
 </Project>

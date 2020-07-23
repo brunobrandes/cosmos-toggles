@@ -8,5 +8,6 @@ namespace Cosmos.Toggles.Domain.Entities.Interfaces
         public IFlagRepository FlagRepository { get; set; }
         public IProjectRepository ProjectRepository { get; set; }
         public IUserRepository UserRepository { get; set; }
+        public IRefreshTokenRepository RefreshTokenRepository { get; set; }
     }
 }
