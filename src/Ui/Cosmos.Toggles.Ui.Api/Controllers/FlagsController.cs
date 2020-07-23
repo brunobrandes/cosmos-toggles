@@ -1,5 +1,6 @@
 ﻿using Cosmos.Toggles.Application.Service.Interfaces;
 using Cosmos.Toggles.Domain.DataTransferObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -16,6 +17,7 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
             return Created($"{Request.Path}", flag);
         }
 
+        
         [HttpGet("{projectId}/{environmentId}/{flagId}")]
         public async Task<IActionResult> GetByEnviromentAsync([FromServices] IFlagAppService flagAppService,
              string projectId, string environmentId, string flagId)

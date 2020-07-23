@@ -77,5 +77,28 @@
             <param name="user">User</param>
             <returns>User</returns>
         </member>
+        <member name="T:Cosmos.Toggles.Ui.Api.Extensions.WebHostBuilderExtension">
+            <summary>
+            Web host builder extension
+            </summary>
+        </member>
+        <member name="T:Cosmos.Toggles.Ui.Api.Startup">
+            <summary>
+            Startup web api
+            </summary>
+        </member>
+        <member name="M:Cosmos.Toggles.Ui.Api.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            This method gets called by the runtime. Use this method to add services to the container.
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Cosmos.Toggles.Ui.Api.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+        </member>
     </members>
 </doc>

@@ -13,9 +13,9 @@ namespace Cosmos.Toggles.Domain.Service
 {
     public class JwtTokenService : ITokenService
     {
-        public Task<string> CreateJwtAsync(string userId, string userName, string userEmail, int expiresSeconds)
+        public async Task<string> CreateJwtAsync(string userId, string userName, string userEmail, int expiresSeconds)
         {
-            // TODO: Get secret by azure key vault.
+            // TODO: Using azure key vault
             var key = Encoding.ASCII.GetBytes("eaa1e32b-8a8e-45ac-bfc5-e6a62078c2e5");
 
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -33,7 +33,7 @@ namespace Cosmos.Toggles.Domain.Service
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
-            return Task.FromResult<string>(tokenHandler.WriteToken(token));
+            return tokenHandler.WriteToken(token);
         }
 
         public Task<string> CreateKeyAsync()
