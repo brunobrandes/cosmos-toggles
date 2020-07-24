@@ -1,10 +1,10 @@
 using AutoMapper;
-using Cosmos.Toggles.Domain.Service.Interfaces;
 using Cosmos.Toggles.Infra.DependencyInjection;
 using Cosmos.Toggles.Infra.Http.Filters;
 using Cosmos.Toggles.Infra.Http.Middlewares;
 using Cosmos.Toggles.Infra.Mapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -21,13 +21,13 @@ namespace Cosmos.Toggles.Ui.Api
     /// Startup web api
     /// </summary>
     public class Startup
-    {   
+    {
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-        
-        public IConfiguration Configuration { get; }        
+
+        public IConfiguration Configuration { get; }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
@@ -51,7 +51,8 @@ namespace Cosmos.Toggles.Ui.Api
             services.AddCosmosToggleNotificationContext();
             services.AddCosmosToggleDataContext(Configuration.GetConnectionString("CosmosToggleConnection"));
 
-            services.AddAuthentication(x =>
+            services
+                .AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -70,6 +71,14 @@ namespace Cosmos.Toggles.Ui.Api
                     ClockSkew = TimeSpan.Zero
                 };
             });
+
+            services
+              .AddAuthorization(auth =>
+              {
+                  auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                      .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
+                      .RequireAuthenticatedUser().Build());
+              });
         }
 
         /// <summary>
@@ -96,6 +105,8 @@ namespace Cosmos.Toggles.Ui.Api
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
+
             app.UseMiddleware(typeof(ExceptionHandlingMiddleware));
             app.UseEndpoints(endpoints =>
             {

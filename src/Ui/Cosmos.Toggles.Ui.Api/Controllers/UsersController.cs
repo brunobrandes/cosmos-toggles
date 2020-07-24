@@ -5,9 +5,12 @@ using System.Threading.Tasks;
 
 namespace Cosmos.Toggles.Ui.Api.Controllers
 {
+    /// <summary>
+    /// User controller
+    /// </summary>
     [ApiController]
     [Route("users")]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         /// <summary>
         /// Create user

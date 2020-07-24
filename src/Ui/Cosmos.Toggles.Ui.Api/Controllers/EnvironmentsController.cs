@@ -1,5 +1,6 @@
 ﻿using Cosmos.Toggles.Application.Service.Interfaces;
 using Cosmos.Toggles.Domain.DataTransferObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -8,6 +9,7 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
     /// <summary>
     /// Manage environment data
     /// </summary>
+    [Authorize("Bearer")]
     [ApiController]
     [Route("environments")]
     public class EnvironmentsController : ControllerBase

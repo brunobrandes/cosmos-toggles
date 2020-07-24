@@ -46,11 +46,57 @@
             <param name="projectId"></param>
             <returns></returns>
         </member>
+        <member name="T:Cosmos.Toggles.Ui.Api.Controllers.FlagsController">
+            <summary>
+            Flag controller
+            </summary>
+        </member>
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.FlagsController.PostAsync(Cosmos.Toggles.Application.Service.Interfaces.IFlagAppService,Cosmos.Toggles.Domain.DataTransferObject.Flag)">
+            <summary>
+            Create flag
+            </summary>
+            <param name="flagAppService">Instance of flag app service</param>
+            <param name="flag">Flag</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.FlagsController.GetByEnviromentAsync(Cosmos.Toggles.Application.Service.Interfaces.IFlagAppService,System.String,System.String,System.String)">
+            <summary>
+            Get flag
+            </summary>
+            <param name="flagAppService">Instance of flag app service</param>
+            <param name="projectId">Project identifier</param>
+            <param name="environmentId">Environment identifier</param>
+            <param name="flagId">Flag identifier</param>
+            <returns>Flag</returns>
+        </member>
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.FlagsController.GetFeatureFlagStatusAsync(Cosmos.Toggles.Application.Service.Interfaces.IFlagAppService,System.String,System.String,System.String)">
+            <summary>
+            Get flag status
+            </summary>
+            <param name="flagAppService">Instance of flag app service</param>
+            <param name="projectId">Project identifier</param>
+            <param name="environmentId">Environment identifier</param>
+            <param name="flagId">Flag identifier</param>
+            <returns>FlagStatus</returns>
+        </member>
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.FlagsController.PutAsync(Cosmos.Toggles.Application.Service.Interfaces.IFlagAppService,Cosmos.Toggles.Domain.DataTransferObject.Flag)">
+            <summary>
+            Edit flag
+            </summary>
+            <param name="flagAppService">Instance of flag app service</param>
+            <param name="flag">Flag</param>
+            <returns></returns>
+        </member>
+        <member name="T:Cosmos.Toggles.Ui.Api.Controllers.ProjectsController">
+            <summary>
+            Project controller
+            </summary>
+        </member>
         <member name="M:Cosmos.Toggles.Ui.Api.Controllers.ProjectsController.PostAsync(Cosmos.Toggles.Application.Service.Interfaces.IProjectAppService,Cosmos.Toggles.Domain.DataTransferObject.Project)">
             <summary>
             Create project
             </summary>
-            <param name="projectAppService"></param>
+            <param name="projectAppService">Instance of project app service</param>
             <param name="project">Project</param>
             <returns>Project</returns>
         </member>
@@ -58,18 +104,23 @@
             <summary>
             Get all projects
             </summary>
-            <param name="projectAppService"></param>
-            <returns></returns>
+            <param name="projectAppService">Instance of project app service</param>
+            <returns>Projects</returns>
         </member>
         <member name="M:Cosmos.Toggles.Ui.Api.Controllers.ProjectsController.GetAsync(Cosmos.Toggles.Application.Service.Interfaces.IProjectAppService,System.String)">
             <summary>
             Get project by identifier
             </summary>
-            <param name="projectAppService"></param>
+            <param name="projectAppService">Instance of project app service</param>
             <param name="projectId">Project identifier</param>
-            <returns></returns>
+            <returns>Project</returns>
         </member>
-        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.UserController.PostAsync(Cosmos.Toggles.Application.Service.Interfaces.IUserAppService,Cosmos.Toggles.Domain.DataTransferObject.User)">
+        <member name="T:Cosmos.Toggles.Ui.Api.Controllers.UsersController">
+            <summary>
+            User controller
+            </summary>
+        </member>
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.UsersController.PostAsync(Cosmos.Toggles.Application.Service.Interfaces.IUserAppService,Cosmos.Toggles.Domain.DataTransferObject.User)">
             <summary>
             Create user
             </summary>

@@ -1,10 +1,15 @@
 ﻿using Cosmos.Toggles.Application.Service.Interfaces;
 using Cosmos.Toggles.Domain.DataTransferObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Cosmos.Toggles.Ui.Api.Controllers
 {
+    /// <summary>
+    /// Project controller
+    /// </summary>
+    [Authorize("Bearer")]
     [ApiController]
     [Route("projects")]
     public class ProjectsController : ControllerBase
@@ -12,7 +17,7 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
         /// <summary>
         /// Create project
         /// </summary>
-        /// <param name="projectAppService"></param>
+        /// <param name="projectAppService">Instance of project app service</param>
         /// <param name="project">Project</param>
         /// <returns>Project</returns>
         [HttpPost]
@@ -25,8 +30,8 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
         /// <summary>
         /// Get all projects
         /// </summary>
-        /// <param name="projectAppService"></param>
-        /// <returns></returns>
+        /// <param name="projectAppService">Instance of project app service</param>
+        /// <returns>Projects</returns>
         [HttpGet("")]
         public async Task<IActionResult> GetAllAsync([FromServices] IProjectAppService projectAppService)
         {
@@ -36,9 +41,9 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
         /// <summary>
         /// Get project by identifier
         /// </summary>
-        /// <param name="projectAppService"></param>
+        /// <param name="projectAppService">Instance of project app service</param>
         /// <param name="projectId">Project identifier</param>
-        /// <returns></returns>
+        /// <returns>Project</returns>
         [HttpGet("{projectId}")]
         public async Task<IActionResult> GetAsync([FromServices] IProjectAppService projectAppService, string projectId)
         {
