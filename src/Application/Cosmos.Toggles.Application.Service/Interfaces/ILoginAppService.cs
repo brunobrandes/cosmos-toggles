@@ -5,7 +5,7 @@ namespace Cosmos.Toggles.Application.Service.Interfaces
 {
     public interface ILoginAppService
     {
-        Task<RefreshToken> LoginAsync(Login login, string ipAddress);
-        Task<RefreshToken> RefreshAsync(string key, string userId, string ipAddress);
+        Task<Token> LoginAsync(Login login, string ipAddress);
+        Task<Token> RefreshAsync(string key, string userId, string ipAddress);
     }
 }

@@ -31,13 +31,13 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
         /// <param name="loginAppService">Instance of service</param>
         /// <param name="loginRefresh">Login refresh</param>
         /// <returns>RefreshToken</returns>
-        [HttpPost("refresh")]
+        [HttpPost("refresh-token")]
         public async Task<IActionResult> RefreshAsync([FromServices] ILoginAppService loginAppService, [FromForm] LoginRefresh loginRefresh)
         {
-            var refreshToken = await loginAppService.RefreshAsync(loginRefresh.Key, loginRefresh.UId,
+            var token = await loginAppService.RefreshAsync(loginRefresh.Key, loginRefresh.UId,
                 Request.HttpContext.Connection.RemoteIpAddress.AddressFamily.ToString());
 
-            return Ok(refreshToken);
+            return Ok(token);
         }
     }
 }

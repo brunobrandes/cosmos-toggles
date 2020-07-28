@@ -35,6 +35,16 @@ namespace Cosmos.Toggles.Ui.Api
         /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.WithOrigins("http://localhost:4200/",
+                            "https://cosmostoggles.net/");
+                    });
+            });
+
             services
                 .AddControllers(options => options.Filters.Add<NotificationFilter>());
 
@@ -103,6 +113,12 @@ namespace Cosmos.Toggles.Ui.Api
             });
 
             app.UseRouting();
+
+            app.UseCors(x => x
+              .SetIsOriginAllowed(origin => true)
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials());
 
             app.UseAuthorization();
             app.UseAuthentication();

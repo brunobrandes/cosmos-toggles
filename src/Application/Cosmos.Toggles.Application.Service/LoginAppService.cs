@@ -36,7 +36,7 @@ namespace Cosmos.Toggles.Application.Service
             _tokenService = tokenService;
         }
 
-        public async Task<RefreshToken> LoginAsync(Login login, string ipAddress)
+        public async Task<Token> LoginAsync(Login login, string ipAddress)
         {
             var userEntity = await _cosmosToggleDataContext.UserRepository.GetByEmailPasswordAsync(login.Email, login.Password);
 
@@ -65,10 +65,10 @@ namespace Cosmos.Toggles.Application.Service
 
             await _cosmosToggleDataContext.RefreshTokenRepository.AddAsync(refreshToken, new PartitionKey(refreshToken.UserId));
 
-            return result;
+            return _mapper.Map<Token>(result);
         }
 
-        public async Task<RefreshToken> RefreshAsync(string key, string userId, string ipAddress)
+        public async Task<Token> RefreshAsync(string key, string userId, string ipAddress)
         {
             var refreshTokenEntity = await _cosmosToggleDataContext.RefreshTokenRepository.GetByKeyUserIdAsync(key, userId);
 
@@ -100,7 +100,7 @@ namespace Cosmos.Toggles.Application.Service
             await _cosmosToggleDataContext.RefreshTokenRepository.AddAsync(_mapper.Map<Domain.Entities.RefreshToken>(refreshToken),
               new PartitionKey(user.Id));
 
-            return refreshToken;
+            return _mapper.Map<Token>(refreshToken);
         }
 
     }
