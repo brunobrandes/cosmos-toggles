@@ -46,11 +46,12 @@ namespace Cosmos.Toggles.Infra.Http.Middlewares
                 {
                     case 409:
                         code = HttpStatusCode.Conflict;
-                        description = "Data already exists";
+                        description = "Already exists";
                         break;
+
                     case 404:
                         code = HttpStatusCode.NotFound;
-                        description = "Data nout found";
+                        description = "Nout found";
                         break;
                 }
             }
@@ -66,11 +67,16 @@ namespace Cosmos.Toggles.Infra.Http.Middlewares
                 Code = code,
                 Description = description
             });
-            await context.Response.WriteAsync(JsonConvert.SerializeObject(notificationMessages, new JsonSerializerSettings
+
+            var jsonSerializerSettings = new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            }));
+                NullValueHandling = NullValueHandling.Ignore
+            };
+
+            await context.Response.WriteAsync(JsonConvert.SerializeObject(notificationMessages, jsonSerializerSettings));
         }
     }
 }
+

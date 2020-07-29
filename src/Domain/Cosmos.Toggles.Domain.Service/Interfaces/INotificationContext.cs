@@ -11,7 +11,6 @@ namespace Cosmos.Toggles.Domain.Service.Interfaces
         bool HasNotifications { get; }
         bool Includes(HttpStatusCode code);
         Task AddAsync(NotificationMessage notificationMessage);
-        Task AddAsync(HttpStatusCode code, string description);
-        Task AddAsync(HttpStatusCode code, string description, dynamic content);
+        Task AddAsync(HttpStatusCode code, string description, string friendlyMessage = null);
     }
 }

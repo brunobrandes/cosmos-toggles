@@ -42,7 +42,7 @@ namespace Cosmos.Toggles.Application.Service
 
             if (userEntity == null)
             {
-                await _notificationContext.AddAsync(HttpStatusCode.Unauthorized, "Unauthorized", null);
+                await _notificationContext.AddAsync(HttpStatusCode.Unauthorized, "Unauthorized", "Incorrect e-mail or password.");
                 return null;
             }
 

@@ -24,15 +24,14 @@ namespace Cosmos.Toggles.Domain.Service
             return Task.FromResult<object>(null);
         }
 
-        public Task AddAsync(HttpStatusCode code, string description)
+        public Task AddAsync(HttpStatusCode code, string description, string friendlyMessage = null)
         {
-            _notifications.Add(new NotificationMessage { Code = code, Description = description });
-            return Task.FromResult<object>(null);
-        }
-
-        public Task AddAsync(HttpStatusCode code, string description, dynamic content)
-        {
-            _notifications.Add(new NotificationMessage { Code = code, Description = description, Content = content });
+            _notifications.Add(new NotificationMessage
+            {
+                Code = code,
+                Description = description,
+                FriendlyMessages = !string.IsNullOrEmpty(friendlyMessage) ? new List<string> { friendlyMessage } : null
+            });
             return Task.FromResult<object>(null);
         }
 
@@ -40,5 +39,7 @@ namespace Cosmos.Toggles.Domain.Service
         {
             return this.HasNotifications && Notifications.Where(x => x.Code == code).Any();
         }
+
+
     }
 }

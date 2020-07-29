@@ -12,8 +12,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System;
 using System.Text;
+using System.Text.Json;
 
 namespace Cosmos.Toggles.Ui.Api
 {
@@ -46,7 +49,12 @@ namespace Cosmos.Toggles.Ui.Api
             });
 
             services
-                .AddControllers(options => options.Filters.Add<NotificationFilter>());
+                .AddControllers(options => options.Filters.Add<NotificationFilter>()).AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    options.SerializerSettings.Formatting = Formatting.Indented;
+                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                });
 
             services
                 .AddSwaggerGen(c =>
