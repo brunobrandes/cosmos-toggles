@@ -5,6 +5,8 @@ using Cosmos.Toggles.Domain.DataTransferObject;
 using Cosmos.Toggles.Domain.Entities.Interfaces;
 using Cosmos.Toggles.Domain.Service.Interfaces;
 using FluentValidation;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -24,7 +26,43 @@ namespace Cosmos.Toggles.Application.Service
             _notificationContext = notificationContext;
             _userValidator = userValidator;
         }
-        
+
+        private async Task CreatePasswordAsync(string email, string password, string activationCode, string activationKey)
+        {
+            var user = await _cosmosToggleDataContext.UserRepository.GetByEmailAsync(email);
+
+            if (user != null)
+            {
+                user.Password = password;
+                await _cosmosToggleDataContext.UserRepository.UpdateAsync(user, new PartitionKey(user.Id));
+            }
+            else
+                await _notificationContext.AddAsync(HttpStatusCode.Conflict, "User already exists");
+        }
+
+        public async Task AddProjectAsync(string userId, string projectId)
+        {
+            var user = await this.GetById(userId);
+            await AddProjectAsync(user, projectId);
+        }
+
+        public async Task AddProjectAsync(User user, string projectId)
+        {
+            if (user != null)
+            {
+                if (user.Projects == null || user.Projects.Count() == 0)
+                {
+                    user.Projects = new List<string> { };
+                }
+
+                if (!user.Projects.Contains(projectId))
+                {
+                    user.Projects.ToList().Add(projectId);
+                    await _cosmosToggleDataContext.UserRepository.UpdateAsync(_mapper.Map<Domain.Entities.User>(user), new PartitionKey(user.Id));
+                }
+            }
+        }
+
         public async Task CreateAsync(User user)
         {
             _userValidator.ValidateAndThrow(user, ruleSet: "create");
@@ -39,17 +77,17 @@ namespace Cosmos.Toggles.Application.Service
                 await _notificationContext.AddAsync(HttpStatusCode.Conflict, "User already exists");
         }
 
-        private async Task CreatePasswordAsync(string email, string password, string activationCode, string activationKey)
+        public async Task<User> GetById(string userId)
         {
-            var user = await _cosmosToggleDataContext.UserRepository.GetByEmailAsync(email);
+            var entity = await _cosmosToggleDataContext.UserRepository.GetByIdAsync(userId, new PartitionKey(userId));
 
-            if (user != null)
+            if (entity == null)
             {
-                user.Password = password;
-                await _cosmosToggleDataContext.UserRepository.UpdateAsync(user, new PartitionKey(user.Id));
+                await _notificationContext.AddAsync(HttpStatusCode.NotFound, "User not found");
+                return null;
             }
-            else
-                await _notificationContext.AddAsync(HttpStatusCode.Conflict, "User already exists");
-        }
+
+            return _mapper.Map<User>(entity);
+        }       
     }
 }

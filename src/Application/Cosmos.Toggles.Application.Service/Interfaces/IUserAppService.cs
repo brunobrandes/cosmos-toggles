@@ -5,6 +5,9 @@ namespace Cosmos.Toggles.Application.Service.Interfaces
 {
     public interface IUserAppService 
     {
-        Task CreateAsync(User user);
+        Task AddProjectAsync(string userId, string projectId);
+        Task AddProjectAsync(User user, string projectId);
+        Task CreateAsync(User user);        
+        Task<User> GetById(string userId);
     }
 }

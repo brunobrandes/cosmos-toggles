@@ -120,13 +120,30 @@
             User controller
             </summary>
         </member>
-        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.UsersController.PostAsync(Cosmos.Toggles.Application.Service.Interfaces.IUserAppService,Cosmos.Toggles.Domain.DataTransferObject.User)">
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.UsersController.CreateAsync(Cosmos.Toggles.Application.Service.Interfaces.IUserAppService,Cosmos.Toggles.Domain.DataTransferObject.User)">
             <summary>
             Create user
             </summary>
             <param name="userAppService">User app service</param>
             <param name="user">User</param>
             <returns>User</returns>
+        </member>
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.UsersController.GetAsync(Cosmos.Toggles.Application.Service.Interfaces.IProjectAppService,System.String)">
+            <summary>
+            Get projects by user
+            </summary>
+            <param name="projectAppService">Project app service</param>.
+            <param name="userId">User identifier</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.UsersController.GetAsync(Cosmos.Toggles.Application.Service.Interfaces.IUserAppService,System.String,System.String)">
+            <summary>
+            Add project to user
+            </summary>
+            <param name="userAppService">User app service</param>
+            <param name="userId">User identifier</param>
+            <param name="projectId">Project identifier</param>
+            <returns></returns>
         </member>
         <member name="T:Cosmos.Toggles.Ui.Api.Extensions.WebHostBuilderExtension">
             <summary>

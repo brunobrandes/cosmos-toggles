@@ -9,5 +9,6 @@ namespace Cosmos.Toggles.Application.Service.Interfaces
         Task CreateAsync(Project project);
         Task<Project> GetAsync(string id);
         Task<IEnumerable<Project>> GetAllAsync();
+        Task<IEnumerable<Project>> GetByUserIdAsync(string userId);
     }
 }

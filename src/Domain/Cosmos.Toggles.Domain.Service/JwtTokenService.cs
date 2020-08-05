@@ -13,6 +13,8 @@ namespace Cosmos.Toggles.Domain.Service
 {
     public class JwtTokenService : ITokenService
     {
+        const int EXPIRES = 1500;
+
         public async Task<string> CreateJwtAsync(string userId, string userName, string userEmail, int expiresSeconds)
         {
             // TODO: Using azure key vault

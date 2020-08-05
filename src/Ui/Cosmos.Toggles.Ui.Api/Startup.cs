@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -68,6 +69,8 @@ namespace Cosmos.Toggles.Ui.Api
             services.AddCosmosToggleDTOValidators();
             services.AddCosmosToggleNotificationContext();
             services.AddCosmosToggleDataContext(Configuration.GetConnectionString("CosmosToggleConnection"));
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services
                 .AddAuthentication(x =>

@@ -18,7 +18,7 @@ namespace Cosmos.Toggles.Application.Service
 {
     public class LoginAppService : ILoginAppService
     {
-        const int EXPIRES = 1800;
+        const int EXPIRES = 1500;
 
         private readonly IMapper _mapper;
         private readonly ICosmosToggleDataContext _cosmosToggleDataContext;

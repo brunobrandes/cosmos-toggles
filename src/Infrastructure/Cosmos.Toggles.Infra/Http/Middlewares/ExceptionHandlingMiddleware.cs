@@ -37,6 +37,7 @@ namespace Cosmos.Toggles.Infra.Http.Middlewares
             var notificationMessages = new List<NotificationMessage> { };
             var code = HttpStatusCode.InternalServerError;
             var description = ex.Message;
+            var friendlyMessage = string.Empty;
 
             if (ex is CosmosException)
             {
@@ -59,13 +60,15 @@ namespace Cosmos.Toggles.Infra.Http.Middlewares
             if (ex is ValidationException)
             {
                 code = HttpStatusCode.BadRequest;
+                friendlyMessage = ex.Message;
             }
 
             context.Response.StatusCode = (int)code;
             notificationMessages.Add(new NotificationMessage
             {
                 Code = code,
-                Description = description
+                Description = description,
+                FriendlyMessages = new List<string> { friendlyMessage }
             });
 
             var jsonSerializerSettings = new JsonSerializerSettings
