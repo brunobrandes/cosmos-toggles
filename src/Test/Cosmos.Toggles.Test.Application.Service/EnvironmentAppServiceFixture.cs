@@ -1,9 +1,11 @@
 using AutoMapper;
 using Azure.Cosmos;
 using Cosmos.Toggles.Application.Service;
+using Cosmos.Toggles.Application.Service.Interfaces;
 using Cosmos.Toggles.Domain.DataTransferObject.Validators;
 using Cosmos.Toggles.Domain.Entities.Repositories;
 using Cosmos.Toggles.Domain.Service;
+using Cosmos.Toggles.Domain.Service.Interfaces;
 using Cosmos.Toggles.Infra.Cosmos.Db;
 using FluentAssertions;
 using FluentValidation;
@@ -26,6 +28,9 @@ namespace Cosmos.Toggles.Test.Application.Service
         private readonly Mock<IEnvironmentRepository> _environmentRepositoryMock;
         private readonly EnvironmentValidator _environmentValidator;
 
+        private readonly Mock<IAuthAppService> _authAppServiceMock;
+        private readonly Mock<INotificationContext> _notificationContext;
+
         public EnvironmentAppServiceFixture()
         {
             _mapper = new Mock<IMapper>();
@@ -33,14 +38,23 @@ namespace Cosmos.Toggles.Test.Application.Service
             _containerMock = new Mock<CosmosContainer>();
             _environmentRepositoryMock = new Mock<IEnvironmentRepository>();
             _environmentValidator = new EnvironmentValidator { };
+            _authAppServiceMock = new Mock<IAuthAppService> { };
+            _notificationContext = new Mock<INotificationContext> { };
 
             SetupCosmosClient();
+            SetupAuthAppService();
         }
 
         private void SetupCosmosClient()
         {
             _cosmosClientMock.Setup(x => x.GetContainer(It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(_containerMock.Object);
+        }
+
+        private void SetupAuthAppService()
+        {
+            _authAppServiceMock.Setup(x => x.UserHasAuthProjectAsync(It.IsAny<string>()))
+                .Returns(Task.FromResult<bool>(true));
         }
 
         private Domain.Entities.Environment GetEntityEnvironment()
@@ -90,7 +104,7 @@ namespace Cosmos.Toggles.Test.Application.Service
                 .Returns(Task.FromResult<object>(null));
 
             var environmentAppService = new EnvironmentAppService(_mapper.Object, _environmentValidator, GetCosmosToggleDataContext(_environmentRepositoryMock.Object),
-                new NotificationContext { });
+                _notificationContext.Object, _authAppServiceMock.Object);
 
             Func<Task> action = async () => { await environmentAppService.CreateAsync(GetDtoEnvironment()); };
             action.Should().NotThrowAsync();
@@ -100,7 +114,7 @@ namespace Cosmos.Toggles.Test.Application.Service
         public void CreateAsync_EnvironmentProject_Null_Shold_Be_ValidationException()
         {
             var environmentAppService = new EnvironmentAppService(_mapper.Object, _environmentValidator,
-                GetCosmosToggleDataContext(_environmentRepositoryMock.Object), new NotificationContext { });
+                GetCosmosToggleDataContext(_environmentRepositoryMock.Object), _notificationContext.Object, _authAppServiceMock.Object);
 
             var environment = GetDtoEnvironment();
             environment.Project = null;
@@ -113,7 +127,7 @@ namespace Cosmos.Toggles.Test.Application.Service
         public void CreateAsync_EnvironmentName_Null_Shold_Be_ValidationException()
         {
             var environmentAppService = new EnvironmentAppService(_mapper.Object, _environmentValidator,
-                GetCosmosToggleDataContext(_environmentRepositoryMock.Object), new NotificationContext { });
+                GetCosmosToggleDataContext(_environmentRepositoryMock.Object), _notificationContext.Object, _authAppServiceMock.Object);
 
             var environment = GetDtoEnvironment();
             environment.Name = null;
@@ -129,7 +143,7 @@ namespace Cosmos.Toggles.Test.Application.Service
                 .Returns(Task.FromResult<IEnumerable<Domain.Entities.Environment>>(new List<Domain.Entities.Environment>() { GetEntityEnvironment() }));
 
             var environmentAppService = new EnvironmentAppService(_mapper.Object, _environmentValidator,
-                GetCosmosToggleDataContext(_environmentRepositoryMock.Object), new NotificationContext { });
+                GetCosmosToggleDataContext(_environmentRepositoryMock.Object), _notificationContext.Object, _authAppServiceMock.Object);
 
             Func<Task> action = async () => { await environmentAppService.GetByProjectAsync("123456"); };
             action.Should().NotThrowAsync();
@@ -144,7 +158,7 @@ namespace Cosmos.Toggles.Test.Application.Service
             var notificationContext = new NotificationContext { };
 
             var environmentAppService = new EnvironmentAppService(_mapper.Object, _environmentValidator,
-                GetCosmosToggleDataContext(_environmentRepositoryMock.Object), notificationContext);
+                GetCosmosToggleDataContext(_environmentRepositoryMock.Object), notificationContext, _authAppServiceMock.Object);
 
             Func<Task> action = async () => { await environmentAppService.GetByProjectAsync("123456"); };
             action.Should().NotThrowAsync();

@@ -9,19 +9,19 @@
             Authentication
             </summary>
         </member>
-        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.AuthController.LoginAsync(Cosmos.Toggles.Application.Service.Interfaces.ILoginAppService,Cosmos.Toggles.Domain.DataTransferObject.Login)">
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.AuthController.LoginAsync(Cosmos.Toggles.Application.Service.Interfaces.IAuthAppService,Cosmos.Toggles.Domain.DataTransferObject.Login)">
             <summary>
             Login
             </summary>
-            <param name="loginAppService">Instance of service</param>
+            <param name="authAppService">Instance of service</param>
             <param name="login">Login</param>
             <returns>RefreshToken</returns>
         </member>
-        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.AuthController.RefreshAsync(Cosmos.Toggles.Application.Service.Interfaces.ILoginAppService,Cosmos.Toggles.Domain.DataTransferObject.LoginRefresh)">
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.AuthController.RefreshAsync(Cosmos.Toggles.Application.Service.Interfaces.IAuthAppService,Cosmos.Toggles.Domain.DataTransferObject.LoginRefresh)">
             <summary>
-            Refresh login
+            Refresh token
             </summary>
-            <param name="loginAppService">Instance of service</param>
+            <param name="authAppService">Instance of service</param>
             <param name="loginRefresh">Login refresh</param>
             <returns>RefreshToken</returns>
         </member>
@@ -40,7 +40,7 @@
         </member>
         <member name="M:Cosmos.Toggles.Ui.Api.Controllers.EnvironmentsController.GetAsync(Cosmos.Toggles.Application.Service.Interfaces.IEnvironmentAppService,System.String)">
             <summary>
-            Get environment by project key
+            Get environment by project id
             </summary>
             <param name="environmentAppService"></param>
             <param name="projectId"></param>
@@ -90,7 +90,7 @@
         <member name="T:Cosmos.Toggles.Ui.Api.Controllers.ProjectsController">
             <summary>
             Project controller
-            </summary>
+            </summary>   
         </member>
         <member name="M:Cosmos.Toggles.Ui.Api.Controllers.ProjectsController.PostAsync(Cosmos.Toggles.Application.Service.Interfaces.IProjectAppService,Cosmos.Toggles.Domain.DataTransferObject.Project)">
             <summary>
@@ -99,13 +99,6 @@
             <param name="projectAppService">Instance of project app service</param>
             <param name="project">Project</param>
             <returns>Project</returns>
-        </member>
-        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.ProjectsController.GetAllAsync(Cosmos.Toggles.Application.Service.Interfaces.IProjectAppService)">
-            <summary>
-            Get all projects
-            </summary>
-            <param name="projectAppService">Instance of project app service</param>
-            <returns>Projects</returns>
         </member>
         <member name="M:Cosmos.Toggles.Ui.Api.Controllers.ProjectsController.GetAsync(Cosmos.Toggles.Application.Service.Interfaces.IProjectAppService,System.String)">
             <summary>

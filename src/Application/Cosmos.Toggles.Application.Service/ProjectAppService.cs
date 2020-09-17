@@ -5,7 +5,6 @@ using Cosmos.Toggles.Domain.DataTransferObject;
 using Cosmos.Toggles.Domain.Entities.Interfaces;
 using Cosmos.Toggles.Domain.Service.Interfaces;
 using FluentValidation;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -19,94 +18,91 @@ namespace Cosmos.Toggles.Application.Service
         private readonly IValidator<Project> _productValidator;
         private readonly ICosmosToggleDataContext _cosmosToggleDataContext;
         private readonly INotificationContext _notificationContext;
+        private readonly ISecurityContext _securityContext;
+        private readonly IAuthAppService _authAppService;
         private readonly IUserAppService _userAppService;
-        private readonly ISecurityContext _securityContrext;
 
         public ProjectAppService(IMapper mapper, IValidator<Project> productValidator, ICosmosToggleDataContext cosmosToggleDataContext,
-            INotificationContext notificationContext, IUserAppService userAppService, ISecurityContext securityContrext)
+            INotificationContext notificationContext, ISecurityContext securityContext, IAuthAppService authAppService, IUserAppService userAppService)
         {
             _mapper = mapper;
             _productValidator = productValidator;
             _cosmosToggleDataContext = cosmosToggleDataContext;
             _notificationContext = notificationContext;
+            _securityContext = securityContext;
+            _authAppService = authAppService;
             _userAppService = userAppService;
-            _securityContrext = securityContrext;
         }
 
         public async Task CreateAsync(Project project)
         {
             _productValidator.ValidateAndThrow(project, ruleSet: "Create");
+
             var entity = _mapper.Map<Domain.Entities.Project>(project);
             await _cosmosToggleDataContext.ProjectRepository.AddAsync(entity, new PartitionKey(entity.Id));
 
-            var user = await _securityContrext.GetUserAsync();
+            var user = await _securityContext.GetUserAsync();
 
             try
             {
                 await _userAppService.AddProjectAsync(user, project.Id);
             }
-            catch 
+            catch
             {
                 await _cosmosToggleDataContext.ProjectRepository.DeleteAsync(entity.Id, new PartitionKey(entity.Id));
                 throw;
             }
         }
 
-        public async Task<IEnumerable<Project>> GetAllAsync()
+        public async Task<IEnumerable<Project>> GetByUserIdAsync(string userId)
         {
-            var result = new List<Project> { };
+            var user = await _securityContext.GetUserAsync();
 
-            await foreach (var entity in _cosmosToggleDataContext.ProjectRepository.GetAllAsync())
+            if (user != null && await _securityContext.MatchUserIdAsync(userId))
             {
-                result.Add(_mapper.Map<Project>(entity));
+                if (user.Projects != null && user.Projects.Count() > 0)
+                {
+                    var result = new List<Project> { };
+
+                    foreach (var projectId in user.Projects)
+                    {
+                        var entity = await _cosmosToggleDataContext.ProjectRepository.GetByIdAsync(projectId, new PartitionKey(projectId));
+
+                        if(entity != null)
+                            result.Add(_mapper.Map<Project>(entity));
+                    }
+
+                    if (result.Count == 0)
+                    {
+                        await _notificationContext.AddAsync(HttpStatusCode.NotFound, $"Projects not found");
+                        return null;
+                    }
+
+                    return result;
+                }
+                else
+                {
+                    await _notificationContext.AddAsync(HttpStatusCode.NotFound, $"Projects not found");
+                }
             }
 
-            if (result.Count == 0)
-            {
-                await _notificationContext.AddAsync(HttpStatusCode.NotFound, $"Projects not found");
-                return null;
-            }
-
-            return result;
+            return null;
         }
 
-        public async Task<Project> GetAsync(string id)
+        public async Task<Project> GetAsync(string projectId)
         {
-            var entity = await _cosmosToggleDataContext.ProjectRepository.GetByIdAsync(id, new PartitionKey(id));
+            if (!await _authAppService.UserHasAuthProjectAsync(projectId))
+                return null;
+
+            var entity = await _cosmosToggleDataContext.ProjectRepository.GetByIdAsync(projectId, new PartitionKey(projectId));
 
             if (entity == null)
             {
-                await _notificationContext.AddAsync(HttpStatusCode.NotFound, $"Project not found by id '{id}'");
+                await _notificationContext.AddAsync(HttpStatusCode.NotFound, $"Project not found by id '{projectId}'");
                 return null;
             }
 
             return _mapper.Map<Project>(entity);
-        }
-
-        public async Task<IEnumerable<Project>> GetByUserIdAsync(string userId)
-        {
-            var user = await _userAppService.GetById(userId);
-
-            if (user != null && user.Projects != null && user.Projects.Count() > 0)
-            {
-                var result = new List<Project> { };
-
-                foreach (var projectId in user.Projects)
-                {
-                    var project = await _cosmosToggleDataContext.ProjectRepository.GetByIdAsync(projectId, new PartitionKey(projectId));
-
-                    if (project != null)
-                        result.Add(_mapper.Map<Project>(project));
-                }
-
-                if (result.Count == 0)
-                    await _notificationContext.AddAsync(HttpStatusCode.NotFound,
-                        "Project not found.", $"Project not found by user '{userId}' and projects '{string.Join(" - ", user.Projects)}'");
-
-                return result;
-            }
-
-            return null;
         }
     }
 }

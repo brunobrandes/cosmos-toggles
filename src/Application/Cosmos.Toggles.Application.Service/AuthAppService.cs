@@ -5,18 +5,14 @@ using Cosmos.Toggles.Domain.DataTransferObject;
 using Cosmos.Toggles.Domain.Entities.Interfaces;
 using Cosmos.Toggles.Domain.Service.Interfaces;
 using FluentValidation;
-using Microsoft.IdentityModel.Tokens;
 using System;
-using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Net;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Cosmos.Toggles.Application.Service
 {
-    public class LoginAppService : ILoginAppService
+    public class AuthAppService : IAuthAppService
     {
         const int EXPIRES = 1500;
 
@@ -25,19 +21,43 @@ namespace Cosmos.Toggles.Application.Service
         private readonly INotificationContext _notificationContext;
         private readonly IValidator<Login> _loginValidator;
         private readonly ITokenService _tokenService;
+        private readonly ISecurityContext _securityContext;
 
-        public LoginAppService(IMapper mapper, ICosmosToggleDataContext cosmosToggleDataContext, INotificationContext notificationContext,
-            IValidator<Login> loginValidator, ITokenService tokenService)
+        public AuthAppService(IMapper mapper, ICosmosToggleDataContext cosmosToggleDataContext, INotificationContext notificationContext,
+            IValidator<Login> loginValidator, ITokenService tokenService, ISecurityContext securityContext)
         {
             _mapper = mapper;
             _cosmosToggleDataContext = cosmosToggleDataContext;
             _notificationContext = notificationContext;
             _loginValidator = loginValidator;
             _tokenService = tokenService;
+            _securityContext = securityContext;
+        }
+
+        public async Task<bool> UserHasAuthProjectAsync(string projectId)
+        {
+            var user = await _securityContext.GetUserAsync();
+
+            var friendlyMessage = $"User unauthorized in project '{projectId}'.";
+
+            if (user == null)
+            {
+                await _notificationContext.AddAsync(HttpStatusCode.Unauthorized, $"User not found in claims", friendlyMessage);
+                return false;
+            }
+
+            if (user.Projects == null || !user.Projects.Contains(projectId))
+            {
+                await _notificationContext.AddAsync(HttpStatusCode.Unauthorized, $"User projects list not contains '{projectId}'", friendlyMessage);
+                return false;
+            }
+
+            return true;
         }
 
         public async Task<Token> LoginAsync(Login login, string ipAddress)
         {
+            _loginValidator.ValidateAndThrow(login, ruleSet: "Create");
             var userEntity = await _cosmosToggleDataContext.UserRepository.GetByEmailPasswordAsync(login.Email, login.Password);
 
             if (userEntity == null)
@@ -102,6 +122,5 @@ namespace Cosmos.Toggles.Application.Service
 
             return _mapper.Map<Token>(refreshToken);
         }
-
     }
 }

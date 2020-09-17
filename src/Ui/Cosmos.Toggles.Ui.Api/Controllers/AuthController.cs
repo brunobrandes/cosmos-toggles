@@ -15,26 +15,26 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
         /// <summary>
         /// Login
         /// </summary>
-        /// <param name="loginAppService">Instance of service</param>
+        /// <param name="authAppService">Instance of service</param>
         /// <param name="login">Login</param>
         /// <returns>RefreshToken</returns>
         [HttpPost("")]
-        public async Task<IActionResult> LoginAsync([FromServices] ILoginAppService loginAppService, [FromForm] Login login)
+        public async Task<IActionResult> LoginAsync([FromServices] IAuthAppService authAppService, [FromForm] Login login)
         {
-            var refreshToken = await loginAppService.LoginAsync(login, Request.HttpContext.Connection.RemoteIpAddress.AddressFamily.ToString());
+            var refreshToken = await authAppService.LoginAsync(login, Request.HttpContext.Connection.RemoteIpAddress.AddressFamily.ToString());
             return Ok(refreshToken);
         }
 
         /// <summary>
-        /// Refresh login
+        /// Refresh token
         /// </summary>
-        /// <param name="loginAppService">Instance of service</param>
+        /// <param name="authAppService">Instance of service</param>
         /// <param name="loginRefresh">Login refresh</param>
         /// <returns>RefreshToken</returns>
         [HttpPost("refresh-token")]
-        public async Task<IActionResult> RefreshAsync([FromServices] ILoginAppService loginAppService, [FromForm] LoginRefresh loginRefresh)
+        public async Task<IActionResult> RefreshAsync([FromServices] IAuthAppService authAppService, [FromForm] LoginRefresh loginRefresh)
         {
-            var token = await loginAppService.RefreshAsync(loginRefresh.Key, loginRefresh.UId,
+            var token = await authAppService.RefreshAsync(loginRefresh.Key, loginRefresh.UId,
                 Request.HttpContext.Connection.RemoteIpAddress.AddressFamily.ToString());
 
             return Ok(token);

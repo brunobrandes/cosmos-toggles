@@ -19,7 +19,8 @@ namespace Cosmos.Toggles.Application.Service
         private readonly INotificationContext _notificationContext;
         private readonly IValidator<User> _userValidator;
 
-        public UserAppService(IMapper mapper, ICosmosToggleDataContext cosmosToggleDataContext, INotificationContext notificationContext, IValidator<User> userValidator)
+        public UserAppService(IMapper mapper, ICosmosToggleDataContext cosmosToggleDataContext, INotificationContext notificationContext,
+            IValidator<User> userValidator, IAuthAppService authAppService)
         {
             _mapper = mapper;
             _cosmosToggleDataContext = cosmosToggleDataContext;
@@ -88,6 +89,7 @@ namespace Cosmos.Toggles.Application.Service
             }
 
             return _mapper.Map<User>(entity);
-        }       
+        }
+
     }
 }

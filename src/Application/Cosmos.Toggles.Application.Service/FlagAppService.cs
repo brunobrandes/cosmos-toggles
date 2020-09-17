@@ -19,24 +19,34 @@ namespace Cosmos.Toggles.Application.Service
         private readonly IValidator<Flag> _flagValidator;
         private readonly ICosmosToggleDataContext _cosmosToggleDataContext;
         private readonly INotificationContext _notificationContext;
+        private readonly IAuthAppService _authAppService;
 
-        public FlagAppService(IMapper mapper, IValidator<Flag> flagValidator, ICosmosToggleDataContext cosmosToggleDataContext, INotificationContext notificationContext)
+        public FlagAppService(IMapper mapper, IValidator<Flag> flagValidator, ICosmosToggleDataContext cosmosToggleDataContext,
+            INotificationContext notificationContext, IAuthAppService authAppService)
         {
             _mapper = mapper;
             _flagValidator = flagValidator;
             _cosmosToggleDataContext = cosmosToggleDataContext;
             _notificationContext = notificationContext;
+            _authAppService = authAppService;
         }
 
         public async Task CreateAsync(Flag flag)
         {
             _flagValidator.ValidateAndThrow(flag, ruleSet: "CreateOrUpdate");
-            var entity = _mapper.Map<Domain.Entities.Flag>(flag);
-            await _cosmosToggleDataContext.FlagRepository.AddAsync(entity, new PartitionKey(flag.Environment.Id));
+
+            if (await _authAppService.UserHasAuthProjectAsync(flag.Environment.Project.Id))
+            {
+                var entity = _mapper.Map<Domain.Entities.Flag>(flag);
+                await _cosmosToggleDataContext.FlagRepository.AddAsync(entity, new PartitionKey(flag.Environment.Id));
+            }
         }
 
         public async Task<Flag> GetAsync(string projectId, string environmentId, string flagId)
         {
+            if (!await _authAppService.UserHasAuthProjectAsync(projectId))
+                return null;
+
             var entity = await _cosmosToggleDataContext.FlagRepository.GetByEnvironmentAsync(projectId, environmentId, flagId);
 
             if (entity == null)
@@ -50,6 +60,9 @@ namespace Cosmos.Toggles.Application.Service
 
         public async Task<FlagStatus> GetStatusAsync(string projectId, string environmentId, string flagId)
         {
+            if (!await _authAppService.UserHasAuthProjectAsync(projectId))
+                return null;
+
             try
             {
                 var entity = await _cosmosToggleDataContext.FlagRepository.GetByEnvironmentAsync(projectId, environmentId, flagId);
@@ -85,6 +98,9 @@ namespace Cosmos.Toggles.Application.Service
         public async Task<int> UpdateAsync(Flag flag)
         {
             _flagValidator.ValidateAndThrow(flag, ruleSet: "CreateOrUpdate");
+
+            if (!await _authAppService.UserHasAuthProjectAsync(flag.Environment.Project.Id))
+                return 0;
 
             var entity = await _cosmosToggleDataContext.FlagRepository.GetByEnvironmentAsync(flag.Environment.Project.Id, flag.Environment.Id, flag.Id);
 

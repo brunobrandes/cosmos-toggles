@@ -28,11 +28,11 @@ namespace Cosmos.Toggles.Infra.Http.Middlewares
             }
             catch (Exception ex)
             {
-                await SetContextResponseByException(context, ex);
+                await WriteResponseAsync(context, ex);
             }
         }
 
-        private async Task SetContextResponseByException(HttpContext context, Exception ex)
+        private async Task WriteResponseAsync(HttpContext context, Exception ex)
         {
             var notificationMessages = new List<NotificationMessage> { };
             var code = HttpStatusCode.InternalServerError;
@@ -71,14 +71,14 @@ namespace Cosmos.Toggles.Infra.Http.Middlewares
                 FriendlyMessages = new List<string> { friendlyMessage }
             });
 
-            var jsonSerializerSettings = new JsonSerializerSettings
+            var responseText = JsonConvert.SerializeObject(notificationMessages, new JsonSerializerSettings
             {
                 Formatting = Formatting.Indented,
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 NullValueHandling = NullValueHandling.Ignore
-            };
+            });
 
-            await context.Response.WriteAsync(JsonConvert.SerializeObject(notificationMessages, jsonSerializerSettings));
+            await context.Response.WriteAsync(responseText);
         }
     }
 }

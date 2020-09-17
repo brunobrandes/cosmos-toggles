@@ -28,7 +28,7 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
         }
 
         /// <summary>
-        /// Get environment by project key
+        /// Get environment by project id
         /// </summary>
         /// <param name="environmentAppService"></param>
         /// <param name="projectId"></param>

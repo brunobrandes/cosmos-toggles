@@ -8,10 +8,10 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
 {
     /// <summary>
     /// Project controller
-    /// </summary>
-    [Authorize("Bearer")]
+    /// </summary>   
     [ApiController]
     [Route("projects")]
+    [Authorize("Bearer")]
     public class ProjectsController : ControllerBase
     {
         /// <summary>
@@ -25,17 +25,6 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
         {
             await projectAppService.CreateAsync(project);
             return Created($"{Request.Path}", project);
-        }
-
-        /// <summary>
-        /// Get all projects
-        /// </summary>
-        /// <param name="projectAppService">Instance of project app service</param>
-        /// <returns>Projects</returns>
-        [HttpGet("")]
-        public async Task<IActionResult> GetAllAsync([FromServices] IProjectAppService projectAppService)
-        {
-            return Ok(await projectAppService.GetAllAsync());
         }
 
         /// <summary>

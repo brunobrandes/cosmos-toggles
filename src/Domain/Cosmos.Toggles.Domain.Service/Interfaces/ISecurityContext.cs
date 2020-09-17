@@ -6,5 +6,9 @@ namespace Cosmos.Toggles.Domain.Service.Interfaces
     public interface ISecurityContext
     {
         Task<User> GetUserAsync();
+
+        Task<string> GetUserIdAsync();
+
+        Task<bool> MatchUserIdAsync(string userId);
     }
 }
