@@ -3,6 +3,7 @@ using Azure.Cosmos;
 using Cosmos.Toggles.Application.Service.Interfaces;
 using Cosmos.Toggles.Domain.DataTransferObject;
 using Cosmos.Toggles.Domain.Entities.Interfaces;
+using Cosmos.Toggles.Domain.Enum;
 using Cosmos.Toggles.Domain.Service.Interfaces;
 using FluentValidation;
 using System;
@@ -58,11 +59,12 @@ namespace Cosmos.Toggles.Application.Service
         public async Task<Token> LoginAsync(Login login, string ipAddress)
         {
             _loginValidator.ValidateAndThrow(login, ruleSet: "Create");
-            var userEntity = await _cosmosToggleDataContext.UserRepository.GetByEmailPasswordAsync(login.Email, login.Password);
 
-            if (userEntity == null)
+            var userEntity = await _cosmosToggleDataContext.UserRepository.GetByEmailPasswordAsync(login.Email, login.Password);
+            
+            if (userEntity == null || userEntity.Status != UserStatus.Activated)
             {
-                await _notificationContext.AddAsync(HttpStatusCode.Unauthorized, "Unauthorized", "Incorrect e-mail or password.");
+                await _notificationContext.AddAsync(HttpStatusCode.Unauthorized, "Unauthorized", "Invalid auth data or status.");
                 return null;
             }
 

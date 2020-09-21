@@ -1,5 +1,6 @@
 ﻿using Cosmos.Toggles.Application.Service.Interfaces;
 using Cosmos.Toggles.Domain.DataTransferObject;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -32,6 +33,7 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
         /// <param name="userId">User identifier</param>
         /// <returns></returns>
         [HttpGet("{userId}/projects")]
+        [Authorize("Bearer")]
         public async Task<IActionResult> GetAsync([FromServices] IProjectAppService projectAppService, string userId)
         {
             var projects = await projectAppService.GetByUserIdAsync(userId);
@@ -46,6 +48,7 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
         /// <param name="projectId">Project identifier</param>
         /// <returns></returns>
         [HttpPut("{userId}/projects/{projectId}/add")]
+        [Authorize("Bearer")]
         public async Task<IActionResult> GetAsync([FromServices] IUserAppService userAppService, string userId, string projectId)
         {
             await userAppService.AddProjectAsync(userId, projectId);
