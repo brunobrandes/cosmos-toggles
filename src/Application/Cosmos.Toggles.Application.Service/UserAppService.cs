@@ -3,6 +3,7 @@ using Azure.Cosmos;
 using Cosmos.Toggles.Application.Service.Interfaces;
 using Cosmos.Toggles.Domain.DataTransferObject;
 using Cosmos.Toggles.Domain.Entities.Interfaces;
+using Cosmos.Toggles.Domain.Enum;
 using Cosmos.Toggles.Domain.Service.Interfaces;
 using FluentValidation;
 using System.Collections.Generic;
@@ -35,6 +36,7 @@ namespace Cosmos.Toggles.Application.Service
             if (user != null)
             {
                 user.Password = password;
+                user.Status = UserStatus.Activated;
                 await _cosmosToggleDataContext.UserRepository.UpdateAsync(user, new PartitionKey(user.Id));
             }
             else

@@ -38,14 +38,6 @@
             <param name="environment"></param>
             <returns></returns>
         </member>
-        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.EnvironmentsController.GetAsync(Cosmos.Toggles.Application.Service.Interfaces.IEnvironmentAppService,System.String)">
-            <summary>
-            Get environment by project id
-            </summary>
-            <param name="environmentAppService"></param>
-            <param name="projectId"></param>
-            <returns></returns>
-        </member>
         <member name="T:Cosmos.Toggles.Ui.Api.Controllers.FlagsController">
             <summary>
             Flag controller
@@ -107,6 +99,14 @@
             <param name="projectAppService">Instance of project app service</param>
             <param name="projectId">Project identifier</param>
             <returns>Project</returns>
+        </member>
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.ProjectsController.GetEnvironmentsAsync(Cosmos.Toggles.Application.Service.Interfaces.IEnvironmentAppService,System.String)">
+            <summary>
+            Get project environments
+            </summary>
+            <param name="environmentAppService">Instance of environment app service</param>
+            <param name="projectId">Project identifier</param>
+            <returns></returns>
         </member>
         <member name="T:Cosmos.Toggles.Ui.Api.Controllers.UsersController">
             <summary>

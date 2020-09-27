@@ -1,4 +1,5 @@
-﻿using Cosmos.Toggles.Domain.Service.Interfaces;
+﻿using Cosmos.Toggles.Domain.Enum;
+using Cosmos.Toggles.Domain.Service.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
@@ -23,7 +24,7 @@ namespace Cosmos.Toggles.Infra.Http.Filters
                 context.HttpContext.Response.StatusCode = (int)_notificationContext.Notifications.FirstOrDefault().Code;
                 context.HttpContext.Response.ContentType = "application/json";
 
-                var notifications = JsonConvert.SerializeObject(_notificationContext.Notifications);
+                var notifications = JsonConvert.SerializeObject(_notificationContext.Notifications, CosmosSerializerSettings.NewtonsoftJsonSettings);
                 await context.HttpContext.Response.WriteAsync(notifications);
 
                 return;

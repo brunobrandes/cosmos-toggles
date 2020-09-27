@@ -37,6 +37,18 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
         public async Task<IActionResult> GetAsync([FromServices] IProjectAppService projectAppService, string projectId)
         {
             return Ok(await projectAppService.GetAsync(projectId));
-        }       
+        }
+
+        /// <summary>
+        /// Get project environments
+        /// </summary>
+        /// <param name="environmentAppService">Instance of environment app service</param>
+        /// <param name="projectId">Project identifier</param>
+        /// <returns></returns>
+        [HttpGet("{projectId}/environments")]
+        public async Task<IActionResult> GetEnvironmentsAsync([FromServices] IEnvironmentAppService environmentAppService, string projectId)
+        {
+            return Ok(await environmentAppService.GetByProjectAsync(projectId));
+        }
     }
 }

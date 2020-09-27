@@ -1,5 +1,6 @@
 ﻿using Azure.Cosmos;
 using Cosmos.Toggles.Domain.DataTransferObject.Notifications;
+using Cosmos.Toggles.Domain.Enum;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
@@ -71,12 +72,7 @@ namespace Cosmos.Toggles.Infra.Http.Middlewares
                 FriendlyMessages = new List<string> { friendlyMessage }
             });
 
-            var responseText = JsonConvert.SerializeObject(notificationMessages, new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                NullValueHandling = NullValueHandling.Ignore
-            });
+            var responseText = JsonConvert.SerializeObject(notificationMessages, CosmosSerializerSettings.NewtonsoftJsonSettings);
 
             await context.Response.WriteAsync(responseText);
         }
