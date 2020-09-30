@@ -42,7 +42,7 @@ namespace Cosmos.Toggles.Infra.Cosmos.Db
         {
             try
             {
-               await this.UpdateAsync(refreshTokenEntity, new PartitionKey(userId));
+               await this.UpdateAsync(refreshTokenEntity, userId);
             }
             catch (Exception ex)
             {

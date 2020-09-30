@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Azure.Cosmos;
 using Cosmos.Toggles.Application.Service.Interfaces;
 using Cosmos.Toggles.Domain.DataTransferObject;
 using Cosmos.Toggles.Domain.Entities.Interfaces;
@@ -37,7 +36,7 @@ namespace Cosmos.Toggles.Application.Service
             if (await _authAppService.UserHasAuthProjectAsync(environment.Project.Id))
             {
                 var entity = _mapper.Map<Domain.Entities.Environment>(environment);
-                await _cosmosToggleDataContext.EnvironmentRepository.AddAsync(entity, new PartitionKey(environment.Project.Id));
+                await _cosmosToggleDataContext.EnvironmentRepository.AddAsync(entity, environment.Project.Id);
             }
         }
 

@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Azure.Cosmos;
 using Cosmos.Toggles.Application.Service.Interfaces;
 using Cosmos.Toggles.Domain.DataTransferObject;
 using Cosmos.Toggles.Domain.Entities.Interfaces;
@@ -61,7 +60,7 @@ namespace Cosmos.Toggles.Application.Service
             _loginValidator.ValidateAndThrow(login, ruleSet: "Create");
 
             var userEntity = await _cosmosToggleDataContext.UserRepository.GetByEmailPasswordAsync(login.Email, login.Password);
-            
+
             if (userEntity == null || userEntity.Status != UserStatus.Activated)
             {
                 await _notificationContext.AddAsync(HttpStatusCode.Unauthorized, "Unauthorized", "Invalid auth data or status.");
@@ -85,7 +84,7 @@ namespace Cosmos.Toggles.Application.Service
                 opts.Items["UserId"] = userEntity.Id;
             });
 
-            await _cosmosToggleDataContext.RefreshTokenRepository.AddAsync(refreshToken, new PartitionKey(refreshToken.UserId));
+            await _cosmosToggleDataContext.RefreshTokenRepository.AddAsync(refreshToken, refreshToken.UserId);
 
             return _mapper.Map<Token>(result);
         }
@@ -119,8 +118,7 @@ namespace Cosmos.Toggles.Application.Service
                 Expires = DateTime.UtcNow.AddSeconds(EXPIRES)
             };
 
-            await _cosmosToggleDataContext.RefreshTokenRepository.AddAsync(_mapper.Map<Domain.Entities.RefreshToken>(refreshToken),
-              new PartitionKey(user.Id));
+            await _cosmosToggleDataContext.RefreshTokenRepository.AddAsync(_mapper.Map<Domain.Entities.RefreshToken>(refreshToken), user.Id);
 
             return _mapper.Map<Token>(refreshToken);
         }

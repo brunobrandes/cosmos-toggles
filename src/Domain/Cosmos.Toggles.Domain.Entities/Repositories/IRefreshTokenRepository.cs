@@ -1,5 +1,4 @@
-﻿using Azure.Cosmos;
-using Cosmos.Db.Sql.Api.Domain.Entities.Repositories;
+﻿using Cosmos.Db.Sql.Api.Domain.Entities.Repositories;
 using System.Threading.Tasks;
 
 namespace Cosmos.Toggles.Domain.Entities.Repositories

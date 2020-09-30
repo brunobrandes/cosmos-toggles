@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Azure.Cosmos;
 using Cosmos.Toggles.Application.Service.Interfaces;
 using Cosmos.Toggles.Domain.DataTransferObject;
 using Cosmos.Toggles.Domain.Entities.Interfaces;
@@ -37,7 +36,7 @@ namespace Cosmos.Toggles.Application.Service
             {
                 user.Password = password;
                 user.Status = UserStatus.Activated;
-                await _cosmosToggleDataContext.UserRepository.UpdateAsync(user, new PartitionKey(user.Id));
+                await _cosmosToggleDataContext.UserRepository.UpdateAsync(user, user.Id);
             }
             else
                 await _notificationContext.AddAsync(HttpStatusCode.Conflict, "User already exists");
@@ -61,7 +60,7 @@ namespace Cosmos.Toggles.Application.Service
                 if (!user.Projects.Contains(projectId))
                 {
                     user.Projects.ToList().Add(projectId);
-                    await _cosmosToggleDataContext.UserRepository.UpdateAsync(_mapper.Map<Domain.Entities.User>(user), new PartitionKey(user.Id));
+                    await _cosmosToggleDataContext.UserRepository.UpdateAsync(_mapper.Map<Domain.Entities.User>(user), user.Id);
                 }
             }
         }
@@ -74,7 +73,7 @@ namespace Cosmos.Toggles.Application.Service
             if (currentUser == null)
             {
                 var entity = _mapper.Map<Domain.Entities.User>(user);
-                await _cosmosToggleDataContext.UserRepository.AddAsync(entity, new PartitionKey(entity.Id));
+                await _cosmosToggleDataContext.UserRepository.AddAsync(entity, entity.Id);
             }
             else
                 await _notificationContext.AddAsync(HttpStatusCode.Conflict, "User already exists");
@@ -82,7 +81,7 @@ namespace Cosmos.Toggles.Application.Service
 
         public async Task<User> GetById(string userId)
         {
-            var entity = await _cosmosToggleDataContext.UserRepository.GetByIdAsync(userId, new PartitionKey(userId));
+            var entity = await _cosmosToggleDataContext.UserRepository.GetByIdAsync(userId, userId);
 
             if (entity == null)
             {

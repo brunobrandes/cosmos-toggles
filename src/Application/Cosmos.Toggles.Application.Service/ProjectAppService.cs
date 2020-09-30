@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Azure.Cosmos;
 using Cosmos.Toggles.Application.Service.Interfaces;
 using Cosmos.Toggles.Domain.DataTransferObject;
 using Cosmos.Toggles.Domain.Entities.Interfaces;
@@ -39,7 +38,7 @@ namespace Cosmos.Toggles.Application.Service
             _productValidator.ValidateAndThrow(project, ruleSet: "Create");
 
             var entity = _mapper.Map<Domain.Entities.Project>(project);
-            await _cosmosToggleDataContext.ProjectRepository.AddAsync(entity, new PartitionKey(entity.Id));
+            await _cosmosToggleDataContext.ProjectRepository.AddAsync(entity, entity.Id);
 
             var user = await _securityContext.GetUserAsync();
 
@@ -49,7 +48,7 @@ namespace Cosmos.Toggles.Application.Service
             }
             catch
             {
-                await _cosmosToggleDataContext.ProjectRepository.DeleteAsync(entity.Id, new PartitionKey(entity.Id));
+                await _cosmosToggleDataContext.ProjectRepository.DeleteAsync(entity.Id, entity.Id);
                 throw;
             }
         }
@@ -66,7 +65,7 @@ namespace Cosmos.Toggles.Application.Service
 
                     foreach (var projectId in user.Projects)
                     {
-                        var entity = await _cosmosToggleDataContext.ProjectRepository.GetByIdAsync(projectId, new PartitionKey(projectId));
+                        var entity = await _cosmosToggleDataContext.ProjectRepository.GetByIdAsync(projectId, projectId);
 
                         if(entity != null)
                             result.Add(_mapper.Map<Project>(entity));
@@ -94,7 +93,7 @@ namespace Cosmos.Toggles.Application.Service
             if (!await _authAppService.UserHasAuthProjectAsync(projectId))
                 return null;
 
-            var entity = await _cosmosToggleDataContext.ProjectRepository.GetByIdAsync(projectId, new PartitionKey(projectId));
+            var entity = await _cosmosToggleDataContext.ProjectRepository.GetByIdAsync(projectId, projectId);
 
             if (entity == null)
             {

@@ -100,7 +100,7 @@ namespace Cosmos.Toggles.Test.Application.Service
         [Fact]
         public void CreateAsync_Shold_Be_Success()
         {
-            _environmentRepositoryMock.Setup(x => x.AddAsync(It.IsAny<Domain.Entities.Environment>(), It.IsAny<PartitionKey>()))
+            _environmentRepositoryMock.Setup(x => x.AddAsync(It.IsAny<Domain.Entities.Environment>(), It.IsAny<string>()))
                 .Returns(Task.FromResult<object>(null));
 
             var environmentAppService = new EnvironmentAppService(_mapper.Object, _environmentValidator, GetCosmosToggleDataContext(_environmentRepositoryMock.Object),

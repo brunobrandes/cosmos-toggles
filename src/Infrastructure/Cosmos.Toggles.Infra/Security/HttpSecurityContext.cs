@@ -33,7 +33,7 @@ namespace Cosmos.Toggles.Infra.Security
 
             if (!string.IsNullOrEmpty(userId))
             {
-                var entity = await _cosmosToggleDataContext.UserRepository.GetByIdAsync(userId, new PartitionKey(userId));
+                var entity = await _cosmosToggleDataContext.UserRepository.GetByIdAsync(userId, userId);
 
                 if (entity != null)
                     return _mapper.Map<User>(entity);
