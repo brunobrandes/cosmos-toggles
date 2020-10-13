@@ -55,5 +55,5 @@ Looking forward to your contribution 🤓
 
 ### License
 
-This software is open source, licensed under the Apache License. </br>
-See [LICENSE.me](https://github.com/brunobrandes/cosmos-toggles/blob/master/LICENSE.me) for details.
+This software is open source, licensed under the MIT License. </br>
+See [LICENSE](https://github.com/brunobrandes/cosmos-toggles/blob/master/LICENSE) for details.
