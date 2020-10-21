@@ -28,7 +28,21 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
         }
 
         /// <summary>
-        /// Get flag
+        /// Get flag by project and environment identifier
+        /// </summary>
+        /// <param name="flagAppService">Instance of flag app service</param>
+        /// <param name="projectId">Project identifier</param>
+        /// <param name="environmentId">Environment identifier</param>
+        /// <returns>Flag list</returns>
+        [HttpGet("{projectId}/{environmentId}/")]
+        public async Task<IActionResult> GetByEnviromentAsync([FromServices] IFlagAppService flagAppService,
+             string projectId, string environmentId)
+        {
+            return Ok(await flagAppService.GetAsync(projectId, environmentId));
+        }
+
+        /// <summary>
+        /// Get flag by project, environment and flag identifier
         /// </summary>
         /// <param name="flagAppService">Instance of flag app service</param>
         /// <param name="projectId">Project identifier</param>
@@ -67,7 +81,7 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
         public async Task<IActionResult> PutAsync([FromServices] IFlagAppService flagAppService, [FromBody] Flag flag)
         {
             await flagAppService.UpdateAsync(flag);
-            return Ok();
+            return Ok(flag);
         }
     }
 }

@@ -51,9 +51,18 @@
             <param name="flag">Flag</param>
             <returns></returns>
         </member>
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.FlagsController.GetByEnviromentAsync(Cosmos.Toggles.Application.Service.Interfaces.IFlagAppService,System.String,System.String)">
+            <summary>
+            Get flag by project and environment identifier
+            </summary>
+            <param name="flagAppService">Instance of flag app service</param>
+            <param name="projectId">Project identifier</param>
+            <param name="environmentId">Environment identifier</param>
+            <returns>Flag list</returns>
+        </member>
         <member name="M:Cosmos.Toggles.Ui.Api.Controllers.FlagsController.GetByEnviromentAsync(Cosmos.Toggles.Application.Service.Interfaces.IFlagAppService,System.String,System.String,System.String)">
             <summary>
-            Get flag
+            Get flag by project, environment and flag identifier
             </summary>
             <param name="flagAppService">Instance of flag app service</param>
             <param name="projectId">Project identifier</param>

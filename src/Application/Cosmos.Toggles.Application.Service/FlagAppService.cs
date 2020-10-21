@@ -7,6 +7,8 @@ using Cosmos.Toggles.Domain.Service.Extensions;
 using Cosmos.Toggles.Domain.Service.Interfaces;
 using FluentValidation;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -46,7 +48,7 @@ namespace Cosmos.Toggles.Application.Service
             if (!await _authAppService.UserHasAuthProjectAsync(projectId))
                 return null;
 
-            var entity = await _cosmosToggleDataContext.FlagRepository.GetByEnvironmentAsync(projectId, environmentId, flagId);
+            var entity = await _cosmosToggleDataContext.FlagRepository.GetAsync(projectId, environmentId, flagId);
 
             if (entity == null)
             {
@@ -57,6 +59,22 @@ namespace Cosmos.Toggles.Application.Service
             return _mapper.Map<Flag>(entity);
         }
 
+        public async Task<IEnumerable<Flag>> GetAsync(string projectId, string environmentId)
+        {
+            if (!await _authAppService.UserHasAuthProjectAsync(projectId))
+                return null;
+
+            var entities = await _cosmosToggleDataContext.FlagRepository.GetAsync(projectId, environmentId);
+
+            if (entities == null || entities.Count() == 0)
+            {
+                await _notificationContext.AddAsync(HttpStatusCode.NotFound, $"Flag not found | EnviromentId: '{environmentId}' - ProjectId: {projectId}");
+                return null;
+            }
+
+            return _mapper.Map<IEnumerable<Flag>>(entities);
+        }
+
         public async Task<FlagStatus> GetStatusAsync(string projectId, string environmentId, string flagId)
         {
             if (!await _authAppService.UserHasAuthProjectAsync(projectId))
@@ -64,7 +82,7 @@ namespace Cosmos.Toggles.Application.Service
 
             try
             {
-                var entity = await _cosmosToggleDataContext.FlagRepository.GetByEnvironmentAsync(projectId, environmentId, flagId);
+                var entity = await _cosmosToggleDataContext.FlagRepository.GetAsync(projectId, environmentId, flagId);
                 var code = (int)HttpStatusCode.OK;
 
                 if (entity != null)
@@ -101,7 +119,7 @@ namespace Cosmos.Toggles.Application.Service
             if (!await _authAppService.UserHasAuthProjectAsync(flag.Environment.Project.Id))
                 return 0;
 
-            var entity = await _cosmosToggleDataContext.FlagRepository.GetByEnvironmentAsync(flag.Environment.Project.Id, flag.Environment.Id, flag.Id);
+            var entity = await _cosmosToggleDataContext.FlagRepository.GetAsync(flag.Environment.Project.Id, flag.Environment.Id, flag.Id);
 
             if (entity != null)
             {

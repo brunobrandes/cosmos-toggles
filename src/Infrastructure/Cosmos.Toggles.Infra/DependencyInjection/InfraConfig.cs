@@ -16,6 +16,7 @@ namespace Cosmos.Toggles.Infra.DependencyInjection
                 .AddScoped<ICosmosToggleDataContext>(x => new CosmosToggleDataContext(new CosmosClient(connectionString,
                 new CosmosClientOptions
                 {
+                    ConnectionMode = ConnectionMode.Direct,
                     SerializerOptions = new CosmosSerializationOptions { Indented = true, PropertyNamingPolicy = CosmosPropertyNamingPolicy.Default }
                 })));
 
