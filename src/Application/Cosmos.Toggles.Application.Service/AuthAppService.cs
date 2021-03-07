@@ -23,8 +23,9 @@ namespace Cosmos.Toggles.Application.Service
         private readonly ITokenService _tokenService;
         private readonly ISecurityContext _securityContext;
 
-        public AuthAppService(IMapper mapper, ICosmosToggleDataContext cosmosToggleDataContext, INotificationContext notificationContext,
-            IValidator<Login> loginValidator, ITokenService tokenService, ISecurityContext securityContext)
+        public AuthAppService(IMapper mapper, ICosmosToggleDataContext cosmosToggleDataContext,
+            INotificationContext notificationContext, IValidator<Login> loginValidator,
+            ITokenService tokenService, ISecurityContext securityContext)
         {
             _mapper = mapper;
             _cosmosToggleDataContext = cosmosToggleDataContext;
@@ -57,7 +58,7 @@ namespace Cosmos.Toggles.Application.Service
 
         public async Task<Token> LoginAsync(Login login, string ipAddress)
         {
-            _loginValidator.ValidateAndThrow(login, ruleSet: "Create");
+            _loginValidator.ValidateAndThrow(login);
 
             var userEntity = await _cosmosToggleDataContext.UserRepository.GetByEmailPasswordAsync(login.Email, login.Password);
 
@@ -98,13 +99,12 @@ namespace Cosmos.Toggles.Application.Service
                 await _notificationContext.AddAsync(HttpStatusCode.Unauthorized, "The access token expired", null);
                 return null;
             }
-            var dateTimeNow = DateTime.UtcNow;
 
-            refreshTokenEntity.Revoked = dateTimeNow;
+            refreshTokenEntity.Revoked = DateTime.UtcNow;
             refreshTokenEntity.RevokedIp = ipAddress;
             refreshTokenEntity.Ttl = 1;
 
-            _cosmosToggleDataContext.RefreshTokenRepository.TryUpdateAsync(refreshTokenEntity, userId);
+            _ = _cosmosToggleDataContext.RefreshTokenRepository.TryUpdateAsync(refreshTokenEntity, userId);
 
             var user = await _tokenService.ExtractUserAsync(refreshTokenEntity.Jwt);
 
@@ -113,13 +113,12 @@ namespace Cosmos.Toggles.Application.Service
                 UserId = user.Id,
                 Key = await _tokenService.CreateKeyAsync(),
                 Jwt = await _tokenService.CreateJwtAsync(user.Id, user.Name, user.Email, EXPIRES),
-                Created = dateTimeNow,
+                Created = DateTime.UtcNow,
                 CreatedIp = ipAddress,
                 Expires = DateTime.UtcNow.AddSeconds(EXPIRES)
             };
 
             await _cosmosToggleDataContext.RefreshTokenRepository.AddAsync(_mapper.Map<Domain.Entities.RefreshToken>(refreshToken), user.Id);
-
             return _mapper.Map<Token>(refreshToken);
         }
     }

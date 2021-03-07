@@ -35,22 +35,15 @@ namespace Cosmos.Toggles.Application.Service
 
         public async Task CreateAsync(Project project)
         {
-            _productValidator.ValidateAndThrow(project, ruleSet: "Create");
+            _productValidator.ValidateAndThrow(project);
 
             var entity = _mapper.Map<Domain.Entities.Project>(project);
             await _cosmosToggleDataContext.ProjectRepository.AddAsync(entity, entity.Id);
 
             var user = await _securityContext.GetUserAsync();
 
-            try
-            {
-                await _userAppService.AddProjectAsync(user, project.Id);
-            }
-            catch
-            {
-                await _cosmosToggleDataContext.ProjectRepository.DeleteAsync(entity.Id, entity.Id);
-                throw;
-            }
+            //TODO: using Polly
+            await _userAppService.AddProjectAsync(user.Id, project.Id);
         }
 
         public async Task<IEnumerable<Project>> GetByUserIdAsync(string userId)

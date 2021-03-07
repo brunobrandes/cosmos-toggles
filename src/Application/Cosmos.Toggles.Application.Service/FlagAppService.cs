@@ -34,7 +34,7 @@ namespace Cosmos.Toggles.Application.Service
 
         public async Task CreateAsync(Flag flag)
         {
-            _flagValidator.ValidateAndThrow(flag, ruleSet: "CreateOrUpdate");
+            _flagValidator.ValidateAndThrow(flag);
 
             if (await _authAppService.UserHasAuthProjectAsync(flag.Environment.Project.Id))
             {
@@ -114,7 +114,7 @@ namespace Cosmos.Toggles.Application.Service
         /// <returns>Return 'rows' afected</returns>
         public async Task<int> UpdateAsync(Flag flag)
         {
-            _flagValidator.ValidateAndThrow(flag, ruleSet: "CreateOrUpdate");
+            _flagValidator.ValidateAndThrow(flag);
 
             if (!await _authAppService.UserHasAuthProjectAsync(flag.Environment.Project.Id))
                 return 0;

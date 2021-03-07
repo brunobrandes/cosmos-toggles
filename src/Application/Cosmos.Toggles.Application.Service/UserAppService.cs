@@ -39,35 +39,34 @@ namespace Cosmos.Toggles.Application.Service
                 await _cosmosToggleDataContext.UserRepository.UpdateAsync(user, user.Id);
             }
             else
+            {
                 await _notificationContext.AddAsync(HttpStatusCode.Conflict, "User already exists");
+            }
+
         }
 
         public async Task AddProjectAsync(string userId, string projectId)
         {
-            var user = await this.GetById(userId);
-            await AddProjectAsync(user, projectId);
-        }
+            var user = await _cosmosToggleDataContext.UserRepository.GetByIdAsync(userId, userId);
 
-        public async Task AddProjectAsync(User user, string projectId)
-        {
             if (user != null)
             {
-                if (user.Projects == null || user.Projects.Count() == 0)
+                if (user.Projects == null)
                 {
                     user.Projects = new List<string> { };
                 }
 
                 if (!user.Projects.Contains(projectId))
                 {
-                    user.Projects.ToList().Add(projectId);
-                    await _cosmosToggleDataContext.UserRepository.UpdateAsync(_mapper.Map<Domain.Entities.User>(user), user.Id);
+                    user.Projects = user.Projects.Append(projectId).ToList();
+                    await _cosmosToggleDataContext.UserRepository.UpdateAsync(user, user.Id);
                 }
             }
         }
 
         public async Task CreateAsync(User user)
         {
-            _userValidator.ValidateAndThrow(user, ruleSet: "create");
+            _userValidator.ValidateAndThrow(user);
             var currentUser = await _cosmosToggleDataContext.UserRepository.GetByEmailAsync(user.Email);
 
             if (currentUser == null)
@@ -79,7 +78,7 @@ namespace Cosmos.Toggles.Application.Service
                 await _notificationContext.AddAsync(HttpStatusCode.Conflict, "User already exists");
         }
 
-        public async Task<User> GetById(string userId)
+        public async Task<User> GetByIdAsync(string userId)
         {
             var entity = await _cosmosToggleDataContext.UserRepository.GetByIdAsync(userId, userId);
 
