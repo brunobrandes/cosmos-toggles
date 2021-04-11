@@ -25,6 +25,24 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
         {
             await environmentAppService.CreateAsync(environment);
             return Created($"{Request.Path}", environment);
-        }     
+        }
+
+        /// <summary>
+        /// Create evironment
+        /// </summary>
+        /// <param name="environmentAppService">Istance of environment app service</param>
+        /// <param name="projectAppService">Istance of project app service</param>
+        /// <param name="projectId">Project identifier</param>
+        /// <param name="environment">Environment</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("{projectId}")]
+        public async Task<IActionResult> AddAsync([FromServices] IEnvironmentAppService environmentAppService,
+            [FromServices] IProjectAppService projectAppService, string projectId, [FromBody] Environment environment)
+        {
+            environment.Project = await projectAppService.GetAsync(projectId);
+            await environmentAppService.CreateAsync(environment);
+            return Created($"{Request.Path}", environment);
+        }
     }
 }

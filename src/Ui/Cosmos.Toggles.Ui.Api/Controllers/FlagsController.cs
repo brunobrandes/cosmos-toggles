@@ -21,10 +21,28 @@ namespace Cosmos.Toggles.Ui.Api.Controllers
         /// <param name="flag">Flag</param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> PostAsync([FromServices] IFlagAppService flagAppService, [FromBody] Flag flag)
+        public async Task<IActionResult> CreateAsync([FromServices] IFlagAppService flagAppService, [FromBody] Flag flag)
         {
             await flagAppService.CreateAsync(flag);
             return Created($"{Request.Path}", flag);
+        }
+
+        /// <summary>
+        /// Create flag
+        /// </summary>
+        /// <param name="flagAppService">Instance of flag app service</param>
+        /// <param name="environmentAppService">Instance of environment app service</param>
+        /// <param name="environmentId">Environment identifier</param>
+        /// <param name="flag">Flag</param>
+        /// <returns></returns>
+        [HttpPost("{projectId}/{environmentId}/")]
+        public async Task<IActionResult> CreateAsync([FromServices] IFlagAppService flagAppService,
+            [FromServices] IEnvironmentAppService environmentAppService, string projectId, string environmentId, [FromBody] Flag flag)
+        {
+            flag.Environment = await environmentAppService.GetAsync(projectId, environmentId);
+            await flagAppService.CreateAsync(flag);
+
+            return Ok();
         }
 
         /// <summary>

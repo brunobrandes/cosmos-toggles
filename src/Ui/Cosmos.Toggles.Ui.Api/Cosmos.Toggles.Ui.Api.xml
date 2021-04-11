@@ -38,16 +38,36 @@
             <param name="environment"></param>
             <returns></returns>
         </member>
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.EnvironmentsController.AddAsync(Cosmos.Toggles.Application.Service.Interfaces.IEnvironmentAppService,Cosmos.Toggles.Application.Service.Interfaces.IProjectAppService,System.String,Cosmos.Toggles.Domain.DataTransferObject.Environment)">
+            <summary>
+            Create evironment
+            </summary>
+            <param name="environmentAppService">Istance of environment app service</param>
+            <param name="projectAppService">Istance of project app service</param>
+            <param name="projectId">Project identifier</param>
+            <param name="environment">Environment</param>
+            <returns></returns>
+        </member>
         <member name="T:Cosmos.Toggles.Ui.Api.Controllers.FlagsController">
             <summary>
             Flag controller
             </summary>
         </member>
-        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.FlagsController.PostAsync(Cosmos.Toggles.Application.Service.Interfaces.IFlagAppService,Cosmos.Toggles.Domain.DataTransferObject.Flag)">
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.FlagsController.CreateAsync(Cosmos.Toggles.Application.Service.Interfaces.IFlagAppService,Cosmos.Toggles.Domain.DataTransferObject.Flag)">
             <summary>
             Create flag
             </summary>
             <param name="flagAppService">Instance of flag app service</param>
+            <param name="flag">Flag</param>
+            <returns></returns>
+        </member>
+        <member name="M:Cosmos.Toggles.Ui.Api.Controllers.FlagsController.CreateAsync(Cosmos.Toggles.Application.Service.Interfaces.IFlagAppService,Cosmos.Toggles.Application.Service.Interfaces.IEnvironmentAppService,System.String,System.String,Cosmos.Toggles.Domain.DataTransferObject.Flag)">
+            <summary>
+            Create flag
+            </summary>
+            <param name="flagAppService">Instance of flag app service</param>
+            <param name="environmentAppService">Instance of environment app service</param>
+            <param name="environmentId">Environment identifier</param>
             <param name="flag">Flag</param>
             <returns></returns>
         </member>

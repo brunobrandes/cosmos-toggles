@@ -8,5 +8,6 @@ namespace Cosmos.Toggles.Application.Service.Interfaces
     {
         Task CreateAsync(Environment environment);
         Task<IEnumerable<Environment>> GetByProjectAsync(string key);
+        Task<Environment> GetAsync(string projectId, string environmentId);
     }
 }

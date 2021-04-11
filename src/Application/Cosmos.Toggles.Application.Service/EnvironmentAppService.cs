@@ -40,6 +40,19 @@ namespace Cosmos.Toggles.Application.Service
             }
         }
 
+        public async Task<Environment> GetAsync(string projectId, string environmentId)
+        {
+            var entity = await _cosmosToggleDataContext.EnvironmentRepository.GetByIdAsync(environmentId, projectId);
+
+            if (entity == null )
+            {
+                await _notificationContext.AddAsync(HttpStatusCode.NotFound, $"Environment not found. ProjectId '{projectId}' EnvironmentId: '{environmentId}' ");
+                return null;
+            }
+
+            return _mapper.Map<Environment>(entity);
+        }
+
         public async Task<IEnumerable<Environment>> GetByProjectAsync(string projectId)
         {
             if (!await _authAppService.UserHasAuthProjectAsync(projectId))
